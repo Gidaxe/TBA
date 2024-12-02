@@ -42,7 +42,13 @@ class Player():
     # Define the move method.
     def move(self, direction):
         # Get the next room from the exits dictionary of the current room.
-        next_room = self.current_room.exits[direction]
+        directions = {"nord":"N", "sud":"S", "est":"E", "ouest":"O", "up": "U", "down":"D", "n":"N", "s":"S", "e":"E", "o":"O", "u":"U", "d": "D"}
+        try:
+            direction = directions[direction.lower()]
+        except KeyError:
+            next_room = None
+        finally:
+            next_room = self.current_room.get_exit(direction)
 
         # If the next room is None, print an error message and return False.
         if next_room is None:

@@ -25,10 +25,12 @@ class Game:
         self.commands["help"] = help
         quit = Command("quit", " : quitter le jeu", Actions.quit, 0)
         self.commands["quit"] = quit
-        go = Command("go", " <direction> : se déplacer dans une direction cardinale (N, E, S, O)", Actions.go, 1)
+        go = Command("go", " <direction> : se déplacer dans une direction cardinale (N, E, S, O, U, D)", Actions.go, 1)
         self.commands["go"] = go
         vide = Command("", "cette commande ne fait rien", Actions.vide, 0)
         self.commands[""] = vide
+        connexion = Command("connexion", "accéder au monde virtuel", Actions.connect, 0)
+        self.commands["connexion"] = connexion
         
         # Setup rooms
 
@@ -44,15 +46,22 @@ class Game:
         self.rooms.append(swamp)
         castle = Room("Castle", "un énorme château fort avec des douves et un pont levis. Sur les tours, des flèches en or massif.")
         self.rooms.append(castle)
-
+        nuage = Room("Nuage", "un nuage rose qui flotte dans l'étendu celeste.")
+        self.rooms.append(nuage)
+        grotte = Room("Grotte", "une gigantesque grotte à des kilomètres sous terre.")
+        self.rooms.append(grotte)
         # Create exits for rooms
 
-        forest.exits = {"N" : cave, "E" : None, "S" : castle, "O" : None}
-        tower.exits = {"N" : cottage, "E" : None, "S" : None, "O" : None}
-        cave.exits = {"N" : None, "E" : cottage, "S" : forest, "O" : None}
-        cottage.exits = {"N" : None, "E" : None, "S" : tower, "O" : cave}
-        swamp.exits = {"N" : tower, "E" : None, "S" : None, "O" : castle}
-        castle.exits = {"N" : forest, "E" : swamp, "S" : None, "O" : None}
+        forest.exits = {"N" : cave, "E" : None, "S" : castle, "O" : None, "D" : grotte , "U" : nuage}
+        tower.exits = {"N" : cottage, "E" : None, "S" : None, "O" : None, "D" : None , "U" : None}
+        cave.exits = {"N" : None, "E" : cottage, "S" : forest, "O" : None, "D" : None , "U" : None}
+        cottage.exits = {"N" : None, "E" : None, "S" : tower, "O" : cave, "D" : None , "U" : None}
+        swamp.exits = {"N" : tower, "E" : None, "S" : None, "O" : castle, "D" : None , "U" : None}
+        castle.exits = {"N" : forest, "E" : swamp, "S" : None, "O" : None, "D" : None , "U" : None}
+        nuage.exits = {"N" : forest, "E" : swamp, "S" : None, "O" : None, "D" : forest , "U" : None}
+        grotte.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "D" : None , "U" : forest}
+
+
 
         # Setup player and starting room
 
