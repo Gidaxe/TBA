@@ -38,7 +38,7 @@ class Game:
         self.rooms.append(village_de_DASSA_baobab)
         labo_du_docteur = Room("Tower", "dans une immense tour en pierre qui s'élève au dessus des nuages.")
         self.rooms.append(labo_du_docteur)
-        Grotte   = Room("Cave", "dans une grotte profonde et sombre. Des voix semblent provenir des profondeurs.")
+        Grotte = Room("Cave", "dans une grotte profonde et sombre. Des voix semblent provenir des profondeurs.")
         self.rooms.append(Grotte)
         foret_sacrée = Room("Cottage", "dans un petit chalet pittoresque avec un toit de chaume. Une épaisse fumée verte sort de la cheminée.")
         self.rooms.append(foret_sacrée)
