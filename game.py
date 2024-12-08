@@ -34,39 +34,51 @@ class Game:
         
         # Setup rooms
 
-        forest = Room("Forest", "une forêt enchantée. Vous entendez une brise légère à travers la cime des arbres.")
-        self.rooms.append(forest)
-        tower = Room("Tower", "une immense tour en pierre qui s'élève au dessus des nuages.")
-        self.rooms.append(tower)
-        cave = Room("Cave", "une grotte profonde et sombre. Des voix semblent provenir des profondeurs.")
-        self.rooms.append(cave)
-        cottage = Room("Cottage", "un petit chalet pittoresque avec un toit de chaume. Une épaisse fumée verte sort de la cheminée.")
-        self.rooms.append(cottage)
-        swamp = Room("Swamp", "un marécage sombre et ténébreux. L'eau bouillonne, les abords sont vaseux.")
-        self.rooms.append(swamp)
-        castle = Room("Castle", "un énorme château fort avec des douves et un pont levis. Sur les tours, des flèches en or massif.")
-        self.rooms.append(castle)
-        nuage = Room("Nuage", "un nuage rose qui flotte dans l'étendu celeste.")
-        self.rooms.append(nuage)
-        grotte = Room("Grotte", "une gigantesque grotte à des kilomètres sous terre.")
-        self.rooms.append(grotte)
+        village_de_DASSA_baobab = Room("Forest", "dans une forêt enchantée. Vous entendez une brise légère à travers la cime des arbres.")
+        self.rooms.append(village_de_DASSA_baobab)
+        labo_du_docteur = Room("Tower", "dans une immense tour en pierre qui s'élève au dessus des nuages.")
+        self.rooms.append(labo_du_docteur)
+        Grotte   = Room("Cave", "dans une grotte profonde et sombre. Des voix semblent provenir des profondeurs.")
+        self.rooms.append(Grotte)
+        foret_sacrée = Room("Cottage", "dans un petit chalet pittoresque avec un toit de chaume. Une épaisse fumée verte sort de la cheminée.")
+        self.rooms.append(foret_sacrée)
+        arbre_voyageur = Room("Swamp", "dans un marécage sombre et ténébreux. L'eau bouillonne, les abords sont vaseux.")
+        self.rooms.append(arbre_voyageur)
+        village_de_Ganvié = Room("Castle", "dans un énorme château fort avec des douves et un pont levis. Sur les tours, des flèches en or massif.")
+        self.rooms.append(village_de_Ganvié)
+        marche_flottant = Room("Tourciel","dans une tour au dessus des nuages.")
+        self.rooms.append(marche_flottant)
+        saule_pleureur = Room("Mondesouterrain","dans un monde souterrain en dessous du monde des humains.")
+        self.rooms.append(saule_pleureur)
+        chateau_de_madar = Room("Mondesouterrain","dans un monde souterrain en dessous du monde des humains.")
+        self.rooms.append(chateau_de_madar)
+        terrain_d_entrainement= Room("Mondesouterrain","dans un monde souterrain en dessous du monde des humains.")
+        self.rooms.append(terrain_d_entrainement)
+        salle_du_trone = Room("Mondesouterrain","dans un monde souterrain en dessous du monde des humains.")
+        self.rooms.append(salle_du_trone)
+        chambre_secrete_du_roi = Room("Mondesouterrain","dans un monde souterrain en dessous du monde des humains.")
+        self.rooms.append(chambre_secrete_du_roi)
         # Create exits for rooms
 
-        forest.exits = {"N" : cave, "E" : None, "S" : castle, "O" : None, "D" : grotte , "U" : nuage}
-        tower.exits = {"N" : cottage, "E" : None, "S" : None, "O" : None, "D" : None , "U" : None}
-        cave.exits = {"N" : None, "E" : cottage, "S" : forest, "O" : None, "D" : None , "U" : None}
-        cottage.exits = {"N" : None, "E" : None, "S" : tower, "O" : cave, "D" : None , "U" : None}
-        swamp.exits = {"N" : tower, "E" : None, "S" : None, "O" : castle, "D" : None , "U" : None}
-        castle.exits = {"N" : forest, "E" : swamp, "S" : None, "O" : None, "D" : None , "U" : None}
-        nuage.exits = {"N" : forest, "E" : swamp, "S" : None, "O" : None, "D" : forest , "U" : None}
-        grotte.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "D" : None , "U" : forest}
+        village_de_DASSA_baobab.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
+        labo_du_docteur.exits = {"N" : Grotte, "E" : None, "S" : None, "O" : None, "U" : , "D" : None}
+        Grotte.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
+        foret_sacrée.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
+        arbre_voyageur.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
+        village_de_Ganvié.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
+        marche_flottant.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
+        saule_pleureur.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
+        chateau_de_madar.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
+        terrain_d_entrainement.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
+        salle_du_trone.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
+        chambre_secrete_du_roi.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
 
 
 
         # Setup player and starting room
 
         self.player = Player(input("\nEntrez votre nom: "))
-        self.player.current_room = swamp
+        self.player.current_room = labo_du_docteur 
 
     # Play the game
     def play(self):
