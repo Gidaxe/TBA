@@ -60,18 +60,18 @@ class Game:
         self.rooms.append(chambre_secrete_du_roi)
         # Create exits for rooms
 
-        village_de_DASSA_baobab.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
-        labo_du_docteur.exits = {"N" : Grotte, "E" : None, "S" : None, "O" : None, "U" : , "D" : None}
-        Grotte.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
-        foret_sacrée.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
-        arbre_voyageur.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
-        village_de_Ganvié.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
-        marche_flottant.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
-        saule_pleureur.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
-        chateau_de_madar.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
-        terrain_d_entrainement.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
-        salle_du_trone.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
-        chambre_secrete_du_roi.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
+        village_de_DASSA_baobab.exits = {"N" : Grotte, "E" : village_de_Ganvié, "S" : chateau_de_madar, "O" : foret_sacréé, "U" : None, "D" : None}
+        labo_du_docteur.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None , "D" : None}
+        Grotte.exits = {"N" : None, "E" : None, "S" : village_de_Dassa_baobab, "O" : None, "U" : None, "D" : None}
+        foret_sacrée.exits = {"N" : None, "E" : village_de_Dassa_baobab, "S" : None, "O" : None, "U" : arbre_voyageur, "D" : None}
+        arbre_voyageur.exits = {"N" : None, "E" : None, "S" : chateau_de_madar, "O" : None, "U" : None, "D" : foret_sacréé}
+        village_de_Ganvié.exits = {"N" : saule_pleureur, "E" : marche_flottant, "S" : None, "O" : village_de_Dassa_baobab, "U" : None, "D" : None}
+        marche_flottant.exits = {"N" : None, "E" : None, "S" : None, "O" : village_de_Ganvié, "U" : None, "D" : None}
+        saule_pleureur.exits = {"N" : None, "E" : None, "S" : village_de_Ganvié, "O" : None, "U" : None, "D" : None}
+        chateau_de_madar.exits = {"N" : None, "E" : chambre_secrete_du_roi, "S" : salle_du_trone, "O" : terrain_d_entrainement, "U" : None, "D" : None}
+        terrain_d_entrainement.exits = {"N" : None, "E" : chateau_de_madar, "S" : None, "O" : None, "U" : None, "D" : None}
+        salle_du_trone.exits = {"N" : chateau_de_madar, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
+        chambre_secrete_du_roi.exits = {"N" : None, "E" : None, "S" : None, "O" : chateau_de_madar, "U" : None, "D" : None}
 
 
 
