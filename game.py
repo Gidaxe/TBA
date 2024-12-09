@@ -31,6 +31,8 @@ class Game:
         self.commands[""] = vide
         connexion = Command("connexion", " : accéder au monde virtuel", Actions.connexion, 0)
         self.commands["connexion"] = connexion
+        back = Command("back", " : cette commande permet au joueur de retourner à sa dernière destination.", Actions.back, 0)
+        self.commands["back"] = back
         
         # Setup rooms
 

@@ -168,3 +168,22 @@ class Actions:
         player.history.append(player.current_room)
         print(player.current_room.get_long_description())
         return True
+    
+
+    def back(game, list_of_words, number_of_parameters):
+        player = game.player
+
+                # If the number of parameters is incorrect, print an error message and return False.
+        l = len(list_of_words)
+        if l != number_of_parameters + 1:
+            command_word = list_of_words[0]
+            print(MSG0.format(command_word=command_word))
+            return False
+        try:
+            player.current_room = player.history[-2]
+            player.history.pop()
+        except IndexError:
+            pass
+        finally:
+            print(player.current_room.get_long_description())
+            return True
