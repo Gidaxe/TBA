@@ -57,6 +57,7 @@ class Actions:
         direction = list_of_words[1]
         # Move the player in the direction specified by the parameter.
         player.move(direction)
+        player.get_history()
         return True
 
     def quit(game, list_of_words, number_of_parameters):
@@ -164,5 +165,6 @@ class Actions:
             return False
         
         player.current_room = game.rooms[1]
+        player.history.append(player.current_room)
         print(player.current_room.get_long_description())
         return True

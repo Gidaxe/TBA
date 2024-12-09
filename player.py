@@ -38,6 +38,14 @@ class Player():
     def __init__(self, name):
         self.name = name
         self.current_room = None
+        self.history = []
+
+
+    # Define the get_history method.
+    def get_history(self):
+        print("\nVous avez déja visité les pièces suivantes:")
+        for i in range(len(self.history)-1):
+            print(f"\n\t_{self.history[i].description}")
     
     # Define the move method.
     def move(self, direction):
@@ -57,6 +65,7 @@ class Player():
         
         # Set the current room to the next room.
         self.current_room = next_room
+        self.history.append(self.current_room)
         print(self.current_room.get_long_description())
         return True
 

@@ -27,16 +27,16 @@ class Game:
         self.commands["quit"] = quit
         go = Command("go", " <direction> : se déplacer dans une direction cardinale (N, E, S, O, U, D)", Actions.go, 1)
         self.commands["go"] = go
-        vide = Command("", "cette commande ne fait rien", Actions.vide, 0)
+        vide = Command("", " : cette commande ne fait rien", Actions.vide, 0)
         self.commands[""] = vide
-        connexion = Command("connexion", "accéder au monde virtuel", Actions.connexion, 0)
+        connexion = Command("connexion", " : accéder au monde virtuel", Actions.connexion, 0)
         self.commands["connexion"] = connexion
         
         # Setup rooms
 
         labo_du_docteur = Room("Labo", "dans le laboratoire du docteur madarrrrrrrrrr.")
         self.rooms.append(labo_du_docteur)
-        village_de_DASSA_baobab = Room("village de DASSA", "dans le village de DASSA./n Plus précisement sous le baobab du village, autour de vous des cases en argiles avec des toits en pailles")
+        village_de_DASSA_baobab = Room("village de DASSA", "dans le village de DASSA.\n Plus précisement sous le baobab du village, autour de vous des cases en argiles avec des toits en pailles")
         self.rooms.append(village_de_DASSA_baobab)
         Grotte   = Room("Grotte", "dans une grotte sombre avec des chauves souris et des serpents.")
         self.rooms.append(Grotte)
