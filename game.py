@@ -29,43 +29,43 @@ class Game:
         self.commands["go"] = go
         vide = Command("", "cette commande ne fait rien", Actions.vide, 0)
         self.commands[""] = vide
-        connexion = Command("connexion", "accéder au monde virtuel", Actions.connect, 0)
+        connexion = Command("connexion", "accéder au monde virtuel", Actions.connexion, 0)
         self.commands["connexion"] = connexion
         
         # Setup rooms
 
-        village_de_DASSA_baobab = Room("Forest", "dans une forêt enchantée. Vous entendez une brise légère à travers la cime des arbres.")
-        self.rooms.append(village_de_DASSA_baobab)
-        labo_du_docteur = Room("Tower", "dans une immense tour en pierre qui s'élève au dessus des nuages.")
+        labo_du_docteur = Room("Labo", "dans le laboratoire du docteur madarrrrrrrrrr.")
         self.rooms.append(labo_du_docteur)
-        Grotte = Room("Cave", "dans une grotte profonde et sombre. Des voix semblent provenir des profondeurs.")
+        village_de_DASSA_baobab = Room("village de DASSA", "dans le village de DASSA.")
+        self.rooms.append(village_de_DASSA_baobab)
+        Grotte   = Room("Grotte", "dans une grotte sombre avec des chauves souris.")
         self.rooms.append(Grotte)
-        foret_sacrée = Room("Cottage", "dans un petit chalet pittoresque avec un toit de chaume. Une épaisse fumée verte sort de la cheminée.")
+        foret_sacrée = Room("foret sacrée", "dans la foret sacré à l'interieur du temple au python.")
         self.rooms.append(foret_sacrée)
-        arbre_voyageur = Room("Swamp", "dans un marécage sombre et ténébreux. L'eau bouillonne, les abords sont vaseux.")
+        arbre_voyageur = Room("Arbre voyageur", "sur un arbre qui vous teleporte à un endroit .")
         self.rooms.append(arbre_voyageur)
-        village_de_Ganvié = Room("Castle", "dans un énorme château fort avec des douves et un pont levis. Sur les tours, des flèches en or massif.")
+        village_de_Ganvié = Room("village de ganvié", "à l'ambarcadaire du village de ganvié.")
         self.rooms.append(village_de_Ganvié)
-        marche_flottant = Room("Tourciel","dans une tour au dessus des nuages.")
+        marche_flottant = Room("Tourciel","sur le marché flottant du village de ganvié.")
         self.rooms.append(marche_flottant)
-        saule_pleureur = Room("Mondesouterrain","dans un monde souterrain en dessous du monde des humains.")
+        saule_pleureur = Room("saule pleureur","sous le saule pleureur.")
         self.rooms.append(saule_pleureur)
-        chateau_de_madar = Room("Mondesouterrain","dans un monde souterrain en dessous du monde des humains.")
+        chateau_de_madar = Room("chateau de madar","dans le chateau de madar.")
         self.rooms.append(chateau_de_madar)
-        terrain_d_entrainement= Room("Mondesouterrain","dans un monde souterrain en dessous du monde des humains.")
+        terrain_d_entrainement= Room("terrain d'entrainement","sur le terrain d'entrainnement des agojié.")
         self.rooms.append(terrain_d_entrainement)
-        salle_du_trone = Room("Mondesouterrain","dans un monde souterrain en dessous du monde des humains.")
+        salle_du_trone = Room("Salle du trone","dans la salle du trone de madar.")
         self.rooms.append(salle_du_trone)
-        chambre_secrete_du_roi = Room("Mondesouterrain","dans un monde souterrain en dessous du monde des humains.")
+        chambre_secrete_du_roi = Room("chambre secrète","dans la chambre secrète de madar.")
         self.rooms.append(chambre_secrete_du_roi)
         # Create exits for rooms
 
-        village_de_DASSA_baobab.exits = {"N" : Grotte, "E" : village_de_Ganvié, "S" : chateau_de_madar, "O" : foret_sacréé, "U" : None, "D" : None}
+        village_de_DASSA_baobab.exits = {"N" : Grotte, "E" : village_de_Ganvié, "S" : chateau_de_madar, "O" : foret_sacrée, "U" : None, "D" : None}
         labo_du_docteur.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None , "D" : None}
-        Grotte.exits = {"N" : None, "E" : None, "S" : village_de_Dassa_baobab, "O" : None, "U" : None, "D" : None}
-        foret_sacrée.exits = {"N" : None, "E" : village_de_Dassa_baobab, "S" : None, "O" : None, "U" : arbre_voyageur, "D" : None}
-        arbre_voyageur.exits = {"N" : None, "E" : None, "S" : chateau_de_madar, "O" : None, "U" : None, "D" : foret_sacréé}
-        village_de_Ganvié.exits = {"N" : saule_pleureur, "E" : marche_flottant, "S" : None, "O" : village_de_Dassa_baobab, "U" : None, "D" : None}
+        Grotte.exits = {"N" : None, "E" : None, "S" : village_de_DASSA_baobab, "O" : None, "U" : None, "D" : None}
+        foret_sacrée.exits = {"N" : None, "E" : village_de_DASSA_baobab, "S" : None, "O" : None, "U" : arbre_voyageur, "D" : None}
+        arbre_voyageur.exits = {"N" : None, "E" : None, "S" : chateau_de_madar, "O" : None, "U" : None, "D" : foret_sacrée}
+        village_de_Ganvié.exits = {"N" : saule_pleureur, "E" : marche_flottant, "S" : None, "O" : village_de_DASSA_baobab, "U" : None, "D" : None}
         marche_flottant.exits = {"N" : None, "E" : None, "S" : None, "O" : village_de_Ganvié, "U" : None, "D" : None}
         saule_pleureur.exits = {"N" : None, "E" : None, "S" : village_de_Ganvié, "O" : None, "U" : None, "D" : None}
         chateau_de_madar.exits = {"N" : None, "E" : chambre_secrete_du_roi, "S" : salle_du_trone, "O" : terrain_d_entrainement, "U" : None, "D" : None}

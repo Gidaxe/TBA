@@ -153,7 +153,7 @@ class Actions:
         return True
     
 
-    def connect(game, list_of_words, number_of_parameters):
+    def connexion(game, list_of_words, number_of_parameters):
         player = game.player
 
                 # If the number of parameters is incorrect, print an error message and return False.
