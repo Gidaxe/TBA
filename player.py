@@ -39,6 +39,7 @@ class Player():
         self.name = name
         self.current_room = None
         self.history = []
+        self.inventory = {}
 
 
     # Define the get_history method.
@@ -47,10 +48,21 @@ class Player():
         for i in range(len(self.history)-1):
             print(f"\n\t_{self.history[i].name}")
 
-    
-    def limit_history(self, history):
-        if len(history) > 10:
-           history.pop(0)
+    #Define the limit_history method
+    def limit_history(self):
+        if len(self.history) > 10:
+           self.history.pop(0)
+
+    #define the get_inventory method
+    def get_inventory(self):
+        if len(self.inventory) > 0:
+            print("\nVous disposez des items suivants :")
+            for key in self.inventory.keys():
+                if self.inventory[key] != None:
+                    print(f"\n\t- {self.inventory[key]}")
+        else:
+            print("\nVotre inventaire est vide.")
+
 
     # Define the move method.
     def move(self, direction):
@@ -71,7 +83,7 @@ class Player():
         # Set the current room to the next room.
         self.current_room = next_room
         self.history.append(self.current_room)
-        self.limit_history(self.history)
+        self.limit_history()
         return True
 
     

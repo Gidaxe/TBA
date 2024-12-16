@@ -189,3 +189,45 @@ class Actions:
         finally:
             print(player.current_room.get_long_description())
             return True
+        
+
+    def look(game, list_of_words, number_of_parameters):
+        player = game.player
+        room = player.current_room
+
+        l = len(list_of_words)
+        if l != number_of_parameters + 1:
+            command_word = list_of_words[0]
+            print(MSG0.format(command_word=command_word))
+            return False
+        
+        room.get_inventory()
+        return True
+
+
+    def take(game, list_of_words, number_of_parameters):
+        player = game.player
+        room = player.current_room
+
+        l = len(list_of_words)
+        if l != number_of_parameters + 1:
+            command_word = list_of_words[0]
+            print(MSG1.format(command_word=command_word))
+            return False
+        
+        item = list_of_words[1]
+        player.inventory[item] = room.inventory.pop(item, None)
+        return True
+    
+
+    def check(game, list_of_words, number_of_parameters):
+        player = game.player
+
+        l = len(list_of_words)
+        if l != number_of_parameters + 1:
+            command_word = list_of_words[0]
+            print(MSG0.format(command_word=command_word))
+            return False
+        
+        player.get_inventory()
+        return True

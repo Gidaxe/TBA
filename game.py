@@ -6,6 +6,7 @@ from room import Room
 from player import Player
 from command import Command
 from actions import Actions
+from item import Item
 
 class Game:
 
@@ -33,6 +34,12 @@ class Game:
         self.commands["connexion"] = connexion
         back = Command("back", " : cette commande permet au joueur de retourner à sa dernière destination.", Actions.back, 0)
         self.commands["back"] = back
+        look = Command("look", " : regarder quels objets sont dans la salle", Actions.look, 0)
+        self.commands["look"] = look
+        take = Command("take", " : prendre les objets", Actions.take, 1)
+        self.commands["take"] = take
+        check = Command("check", " : observer son inventaire", Actions.check, 0)
+        self.commands["check"] = check
         
         # Setup rooms
 
@@ -75,7 +82,11 @@ class Game:
         salle_du_trone.exits = {"N" : chateau_de_madar, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
         chambre_secrete_du_roi.exits = {"N" : None, "E" : None, "S" : None, "O" : chateau_de_madar, "U" : None, "D" : None}
 
-
+        # Setup room inventories
+        sword = Item("sword", "une épée au fil tranchant comme un rasoir", 2)
+        shield = Item("shield", "bouclier pouvant parrer n'importe quelle attaque", 4)
+        village_de_DASSA_baobab.inventory["sword"] = sword
+        foret_sacrée.inventory["shield"] = shield
 
         # Setup player and starting room
 
