@@ -45,8 +45,13 @@ class Player():
     def get_history(self):
         print("\nVous avez déja visité les pièces suivantes:")
         for i in range(len(self.history)-1):
-            print(f"\n\t_{self.history[i].description}")
+            print(f"\n\t_{self.history[i].name}")
+
     
+    def limit_history(self, history):
+        if len(history) > 10:
+           history.pop(0)
+
     # Define the move method.
     def move(self, direction):
         # Get the next room from the exits dictionary of the current room.
@@ -66,7 +71,7 @@ class Player():
         # Set the current room to the next room.
         self.current_room = next_room
         self.history.append(self.current_room)
-        print(self.current_room.get_long_description())
+        self.limit_history(self.history)
         return True
 
     

@@ -38,11 +38,11 @@ class Game:
 
         labo_du_docteur = Room("Labo", "dans le laboratoire du docteur madarrrrrrrrrr.")
         self.rooms.append(labo_du_docteur)
-        village_de_DASSA_baobab = Room("village de DASSA", "dans le village de DASSA.\n Plus précisement sous le baobab du village, autour de vous des cases en argiles avec des toits en pailles")
+        village_de_DASSA_baobab = Room("village de DASSA", "dans le village de DASSA.")
         self.rooms.append(village_de_DASSA_baobab)
         Grotte   = Room("Grotte", "dans une grotte sombre avec des chauves souris et des serpents.")
         self.rooms.append(Grotte)
-        foret_sacrée = Room("foret sacrée", "dans la foret sacré à l'interieur du temple au python, ce temple etait dans le passé un lieu de culte au dieux, autour de vous des ossements humains et des statues.")
+        foret_sacrée = Room("foret sacrée", "dans la foret sacré à l'interieur du temple au python")
         self.rooms.append(foret_sacrée)
         arbre_voyageur = Room("Arbre voyageur", "sur un arbre particulier qui a la capacité de vous téléporté à des endroits précis .")
         self.rooms.append(arbre_voyageur)
