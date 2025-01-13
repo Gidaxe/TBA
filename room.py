@@ -1,3 +1,4 @@
+#from game import DEBUG
 # Define the Room class.
 
 class Room:
@@ -44,6 +45,18 @@ class Room:
         True
     """
 
+    entities = {}
+
+    # Define the method class to update the entities in the room
+    @classmethod
+    def refresh_room_entities(cls, entity, old_room, new_room):
+        ents =Room.entities[old_room.name]
+        n = len(ents)
+        for i in range(n):
+            if ents[i] == entity:
+                ents.pop(i)
+                break
+        Room.entities[new_room.name].append(entity)
 
     # Define the constructor. 
     def __init__(self, name, description):
@@ -51,6 +64,7 @@ class Room:
         self.description = description
         self.exits = {}
         self.inventory = {}
+        Room.entities[self.name] = []
     
     # Define the get_exit method.
     def get_exit(self, direction):
@@ -79,6 +93,17 @@ class Room:
         if len(self.inventory) > 0:
             print("\nLa pièce contient :")
             for key in self.inventory.keys():
-                print(f"\n\t- {self.inventory[key]}")
+                if self.inventory[key] != None:
+                    print(f"\n\t- {self.inventory[key]}")
         else:
             print("\nIl n'y a rien ici.")
+
+    #Define the get_entities method
+    def get_entities(self, show = False):
+        if show:
+            print(f"\nLes entités autour de vous sont:")
+            for entity in Room.entities[self.name]:
+                if entity.id != 1: #identifiant du joueur
+                    print(f"\n\t-{entity}")
+        return self.entities
+         

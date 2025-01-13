@@ -1,3 +1,5 @@
+#from game import DEBUG
+
 # Define the Player class.
 class Player():
     """
@@ -36,22 +38,34 @@ class Player():
 
     # Define the constructor.
     def __init__(self, name):
+        self.id = 1
         self.name = name
+        self.max_weight = 25
         self.current_room = None
         self.history = []
         self.inventory = {}
+        self.carte = {}
 
 
     # Define the get_history method.
     def get_history(self):
         print("\nVous avez déja visité les pièces suivantes:")
-        for i in range(len(self.history)-1):
+        for i in range(len(self.history)):
             print(f"\n\t_{self.history[i].name}")
+            if self.history[i].name not in self.carte.keys():
+                self.carte[self.history[i].name] = self.history[i]
 
     #Define the limit_history method
     def limit_history(self):
         if len(self.history) > 10:
            self.history.pop(0)
+
+    #Define the limit_inventory method
+    def limit_inventory(self, new_item):
+        if sum([self.inventory[item].weight for item in self.inventory]) + new_item.weight > self.max_weight:
+           return True
+    
+        return False
 
     #define the get_inventory method
     def get_inventory(self):
@@ -71,7 +85,7 @@ class Player():
         try:
             direction = directions[direction.lower()]
         except KeyError:
-            next_room = None
+            pass
         finally:
             next_room = self.current_room.get_exit(direction)
 
@@ -81,6 +95,7 @@ class Player():
             return False
         
         # Set the current room to the next room.
+        self.current_room.refresh_room_entities(self, self.current_room, next_room)
         self.current_room = next_room
         self.history.append(self.current_room)
         self.limit_history()

@@ -1,3 +1,4 @@
+#from game import DEBUG
 # This file contains the Command class.
 
 class Command:

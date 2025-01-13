@@ -7,6 +7,9 @@ from player import Player
 from command import Command
 from actions import Actions
 from item import Item
+from character import Character
+
+DEBUG = False
 
 class Game:
 
@@ -36,10 +39,21 @@ class Game:
         self.commands["back"] = back
         look = Command("look", " : regarder quels objets sont dans la salle", Actions.look, 0)
         self.commands["look"] = look
-        take = Command("take", " : prendre les objets", Actions.take, 1)
+        take = Command("take", " : prendre un objet", Actions.take, 1)
         self.commands["take"] = take
+        drop = Command("drop", " : déposer un objet", Actions.drop, 1)
+        self.commands["drop"] = drop
         check = Command("check", " : observer son inventaire", Actions.check, 0)
         self.commands["check"] = check
+        items = Command("items", " : lister tous les objets presents dans le jeu", Actions.items, 0)
+        self.commands["items"] = items
+        beam = Command("beam", " : se téléporter dans un endroit déjà visité au moins une fois.", Actions.beam, 0)
+        self.commands["beam"] = beam
+        bring = Command("bring", " : se déplacer d'une salle a l'autre avec un npc", Actions.bring, 2)
+        self.commands["bring"] = bring
+        talk = Command("talk", " : parler avec une personne", Actions.talk, 1)
+        self.commands["talk"] = talk
+
         
         # Setup rooms
 
@@ -83,13 +97,24 @@ class Game:
         chambre_secrete_du_roi.exits = {"N" : None, "E" : None, "S" : None, "O" : chateau_de_madar, "U" : None, "D" : None}
 
         # Setup room inventories
-        sword = Item("sword", "une épée au fil tranchant comme un rasoir", 2)
-        shield = Item("shield", "bouclier pouvant parrer n'importe quelle attaque", 4)
+        sword = Item("sword", 0, "une épée au fil tranchant comme un rasoir", 4)
+        shield = Item("shield", 1, "bouclier pouvant parrer n'importe quelle attaque", 6)
+        map = Item("map", 2, "carte magique permettant de vous repérer dans le monde et meme sous certaines conditions de vous téléporter !!!", 2)
+        boat = Item("boat", 4, "bateau magique pouvant traverser n'importe quelle étendu d'eau", 3)
+        oeil_du_voyageur = Item("oeil", 11, "Oeil magique ayant une fois appartenu a l'épervier de ganvié, il peut tout voir, nul mystere ne lui échappe !", 1)
         village_de_DASSA_baobab.inventory["sword"] = sword
-        foret_sacrée.inventory["shield"] = shield
+        village_de_Ganvié.inventory["shield"] = shield
+        village_de_Ganvié.inventory["boat"] = boat
+        arbre_voyageur.inventory["map"] = map
+        saule_pleureur.inventory["oeil"] = oeil_du_voyageur
+
+        # Setup room entities
+        guide = Character("Ancient", 2, "l'acient du village, il s'agit de l'homme le plus vieux et le plus sage de tout DASSA !", village_de_DASSA_baobab, {"salut":"Quel est ton nom jeune homme ?"}, False)
+        voyante = Character("Voyante", 3, "la voyante la plus compétente de tout le dahomey !", village_de_Ganvié, {"salut":"Quel est ton nom jeune homme ?"})
+        Room.entities[village_de_DASSA_baobab.name].append(guide)
+        Room.entities[village_de_Ganvié.name].append(voyante)
 
         # Setup player and starting room
-
         self.player = Player(input("\nEntrez votre nom: "))
         self.player.current_room = labo_du_docteur 
 
