@@ -66,11 +66,6 @@ class Room:
                 for ent in Room.entities[room]:
                     if ent.following:
                         ent.follow_player(ent.leader)
-                    else:
-                        #faire bouger de facon aléatoire les npc qui ne suivent pas le joueur.
-                        room = rd.choice(Room.entities)
-                        ent = rd.choice(room)
-                        ent.move()
 
     def move_entities(cls):
         pass
