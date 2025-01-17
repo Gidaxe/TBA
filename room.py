@@ -1,3 +1,4 @@
+import random as rd
 #from game import DEBUG
 # Define the Room class.
 
@@ -49,14 +50,30 @@ class Room:
 
     # Define the method class to update the entities in the room
     @classmethod
-    def refresh_room_entities(cls, entity, old_room, new_room):
-        ents =Room.entities[old_room.name]
-        n = len(ents)
-        for i in range(n):
-            if ents[i] == entity:
-                ents.pop(i)
-                break
-        Room.entities[new_room.name].append(entity)
+    def refresh_room_entities(cls, entity=None, old_room=None, new_room=None):
+        #faire en sorte que les entités qui follow le player se déplacent
+        #faire en sorte qu'a chaque déplacement du joueur les npc qui ne le follow ont une chance de se déplacer de façon random
+        if entity:
+            ents =Room.entities[old_room.name]
+            n = len(ents)
+            for i in range(n):
+                if ents[i] == entity:
+                    ents.pop(i)
+                    break
+            Room.entities[new_room.name].append(entity)
+        else:
+            for room in Room.entities.keys():
+                for ent in Room.entities[room]:
+                    if ent.following:
+                        ent.follow_player(ent.leader)
+                    else:
+                        #faire bouger de facon aléatoire les npc qui ne suivent pas le joueur.
+                        room = rd.choice(Room.entities)
+                        ent = rd.choice(room)
+                        ent.move()
+
+    def move_entities(cls):
+        pass
 
     # Define the constructor. 
     def __init__(self, name, description):
@@ -97,6 +114,14 @@ class Room:
                     print(f"\n\t- {self.inventory[key]}")
         else:
             print("\nIl n'y a rien ici.")
+
+    #Define the get_entity method
+    def get_entity(self, name):
+        for entity in Room.entities[self.name]:
+            if entity.name == name:
+                return entity
+        print(f"il n'y a pas de {name} dans cette pièce !")
+        return None
 
     #Define the get_entities method
     def get_entities(self, show = False):

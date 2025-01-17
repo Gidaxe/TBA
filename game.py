@@ -49,8 +49,8 @@ class Game:
         self.commands["items"] = items
         beam = Command("beam", " : se téléporter dans un endroit déjà visité au moins une fois.", Actions.beam, 0)
         self.commands["beam"] = beam
-        bring = Command("bring", " : se déplacer d'une salle a l'autre avec un npc", Actions.bring, 2)
-        self.commands["bring"] = bring
+        lead = Command("lead", " : se déplacer d'une salle a l'autre avec un npc", Actions.lead, 2)
+        self.commands["lead"] = lead
         talk = Command("talk", " : parler avec une personne", Actions.talk, 1)
         self.commands["talk"] = talk
 
@@ -125,6 +125,7 @@ class Game:
         # Loop until the game is finished
         while not self.finished:
             # Get the command from the player
+            self.player.current_room.refresh_room_entities()
             self.process_command(input("> "))
         return None
 
@@ -155,6 +156,11 @@ class Game:
 def main():
     # Create a game object and play the game
     Game().play()
+    #fonctionnalité pour befriend un npc
+    #npc powered by chatgpt
+    #interace graphique
+    #carte en ascii
+    #Nom du jeu en ascii
     
 
 if __name__ == "__main__":

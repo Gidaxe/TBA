@@ -45,6 +45,8 @@ class Character():
         self.inventory = {}
         self.msgs = msgs
         self.nomade = nomade
+        self.following = False
+        self.leader = None
 
     #String representation of the PNG
     def __str__(self):
@@ -66,33 +68,36 @@ class Character():
             
 
     # Define the move method.
-    def move(self, direction = None):
+    def move(self):
         # Get the next room from the exits dictionary of the current room.
-        if direction:
-            if self.nomade:
-                directions = {"nord":"N", "sud":"S", "est":"E", "ouest":"O", "up": "U", "down":"D", "n":"N", "s":"S", "e":"E", "o":"O", "u":"U", "d": "D"}
-                try:
-                    direction = directions[direction.lower()]
-                except KeyError:
-                    pass
-                finally:
-                    next_room = self.current_room.get_exit(direction)
-            else:
-                print(f"{self.name} ne peut pas se déplacer !")
+        
+        if self.nomade:
+            next_room = rd.choice([room for room in self.current_room.exits.values()])        
+
+            # If there is no next room in that direction
+            if next_room is None:
                 return True
         else:
-            if self.nomade:
-                next_room = rd.choice([room for room in self.current_room.exits.values()])        
-
-                # If there is no next room in that direction
-                if next_room is None:
-                    return True
-            else:
-                return True
+            #Ne rien afficher car le joueur n'a pas besoin de savoir si un npc n'a pas pu effectuer son déplacement automatique
+            return True
         
         # Set the current room to the next room.
         self.current_room.refresh_room_entities(self, self.current_room, next_room)
         self.current_room = next_room
         return True
+    
+
+    #Define the follow player function
+    def follow_player(self, player):
+        if self.nomade:
+            # Set the current room to the next room.
+            next_room = player.current_room
+            self.current_room.refresh_room_entities(self, self.current_room, next_room)
+            self.current_room = next_room
+        else:
+            print(f"{self.name} ne peut pas se déplacer !")
+        return True
+        
+        
 
     

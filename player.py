@@ -45,6 +45,7 @@ class Player():
         self.history = []
         self.inventory = {}
         self.carte = {}
+        self.following = False
 
 
     # Define the get_history method.

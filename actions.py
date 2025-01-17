@@ -312,7 +312,7 @@ class Actions:
         
         return True
     
-    def bring(game, list_of_words, number_of_parameters):
+    def lead(game, list_of_words, number_of_parameters):
         player = game.player
 
         l = len(list_of_words)
@@ -322,20 +322,36 @@ class Actions:
             return False
         
         direction = list_of_words[1]
-        npc = list_of_words[2]
+        npc = player.current_room.get_entity(list_of_words[2])
 
-        entities = player.current_room.entities[player.current_room.name]
+        if npc == None:
+            return True
         
-        for ent in entities:
-            if ent.name == npc:
-                ent.move(direction)
-                player.move(direction)
-                player.get_history()
-                print(player.current_room.get_long_description())
+        if list_of_words[1] == "lock":
+            if npc.nomade:
+                npc.following = True
+                npc.leader = player
+                print(f'{npc.name} vous suis !')
                 return True
-
-        print("Il n'y a personne de ce nom ici !")
-        return True
+            print(f'{npc.name} ne peut pas se déplacer !')
+            return True
+        
+        if list_of_words[1] == "unlock":
+            npc.following = False
+            npc.leader = None
+            print(f'{npc.name} ne vous suis plus !')
+            return True
+        
+        if npc.nomade:
+            player.move(direction)
+            npc.follow_player(player)
+            player.get_history()
+            print(player.current_room.get_long_description())
+            return True
+        else:
+            print(f"{npc.name} ne peut pas se déplacer !")
+            return True
+            
     
     def talk(game, list_of_words, number_of_parameters):
         player = game.player
