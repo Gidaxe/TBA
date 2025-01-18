@@ -7,7 +7,8 @@ class Item():
 
     @classmethod
     def list_items(cls):
-        print([ Item.inventaire_jeu[i].name for i in Item.inventaire_jeu])
+        for id in Item.inventaire_jeu:
+            print(f"\n\t-{Item.inventaire_jeu[id]}")
 
     def __init__(self, name, identifiant, description, weight):
         self.name = name 

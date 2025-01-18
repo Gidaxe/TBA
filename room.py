@@ -1,4 +1,5 @@
 import random as rd
+import character as chara
 #from game import DEBUG
 # Define the Room class.
 
@@ -46,29 +47,18 @@ class Room:
         True
     """
 
-    entities = {}
+    entities = {} #dictionnaire: {nom_de_la_room:[entitées de la room]}
 
     # Define the method class to update the entities in the room
     @classmethod
-    def refresh_room_entities(cls, entity=None, old_room=None, new_room=None):
+    def refresh_room_entities(cls):
         #faire en sorte que les entités qui follow le player se déplacent
         #faire en sorte qu'a chaque déplacement du joueur les npc qui ne le follow ont une chance de se déplacer de façon random
-        if entity:
-            ents =Room.entities[old_room.name]
-            n = len(ents)
-            for i in range(n):
-                if ents[i] == entity:
-                    ents.pop(i)
-                    break
-            Room.entities[new_room.name].append(entity)
-        else:
-            for room in Room.entities.keys():
-                for ent in Room.entities[room]:
-                    if ent.following:
-                        ent.follow_player(ent.leader)
-
-    def move_entities(cls):
-        pass
+        followers = chara.Character.followers
+        for ent in followers:
+            entity = followers[ent]
+            entity.follow_player(entity.leader)
+            print(f"{entity.name} vous suis vers {entity.leader.current_room.name}.")
 
     # Define the constructor. 
     def __init__(self, name, description):
@@ -77,6 +67,7 @@ class Room:
         self.exits = {}
         self.inventory = {}
         Room.entities[self.name] = []
+        self.room_entities = Room.entities[self.name]
     
     # Define the get_exit method.
     def get_exit(self, direction):
@@ -110,20 +101,31 @@ class Room:
         else:
             print("\nIl n'y a rien ici.")
 
-    #Define the get_entity method
-    def get_entity(self, name):
-        for entity in Room.entities[self.name]:
-            if entity.name == name:
-                return entity
-        print(f"il n'y a pas de {name} dans cette pièce !")
-        return None
+    #Define the get_entity method returns either the entity's id, their index in the room they are in or the entity itself (Character instance).
+    def get_entity(self, name, id=None, room_index=None):
+        cmpt = 0
+        print(self.name)
+        for i in range(len(self.room_entities)):
+            if self.room_entities[i].name == name:
+                ent = self.room_entities[i]
+                index = i
+                cmpt += 1
+                break
+        if cmpt<1:
+            print(f"il n'y a pas de {name} dans cette pièce !")
+            return None
+        if id:
+            return ent.id
+        elif room_index:
+            return index
+        else:
+            return ent
 
     #Define the get_entities method
     def get_entities(self, show = False):
         if show:
             print(f"\nLes entités autour de vous sont:")
-            for entity in Room.entities[self.name]:
+            for entity in self.room_entities:
                 if entity.id != 1: #identifiant du joueur
                     print(f"\n\t-{entity}")
-        return self.entities
          

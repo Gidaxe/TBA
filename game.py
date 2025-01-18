@@ -39,9 +39,9 @@ class Game:
         self.commands["back"] = back
         look = Command("look", " : regarder quels objets sont dans la salle", Actions.look, 0)
         self.commands["look"] = look
-        take = Command("take", " : prendre un objet", Actions.take, 1)
+        take = Command("take", " <objet> : prendre un objet", Actions.take, 1)
         self.commands["take"] = take
-        drop = Command("drop", " : déposer un objet", Actions.drop, 1)
+        drop = Command("drop", " <objet> : déposer un objet", Actions.drop, 1)
         self.commands["drop"] = drop
         check = Command("check", " : observer son inventaire", Actions.check, 0)
         self.commands["check"] = check
@@ -49,9 +49,9 @@ class Game:
         self.commands["items"] = items
         beam = Command("beam", " : se téléporter dans un endroit déjà visité au moins une fois.", Actions.beam, 0)
         self.commands["beam"] = beam
-        lead = Command("lead", " : se déplacer d'une salle a l'autre avec un npc", Actions.lead, 2)
+        lead = Command("lead", " <direction> <PNJ> || <lock/unlock> <PNJ> : se déplacer d'une salle a l'autre avec un npc", Actions.lead, 2)
         self.commands["lead"] = lead
-        talk = Command("talk", " : parler avec une personne", Actions.talk, 1)
+        talk = Command("talk", " <PNJ> : parler avec une personne", Actions.talk, 1)
         self.commands["talk"] = talk
 
         
@@ -100,19 +100,29 @@ class Game:
         sword = Item("sword", 0, "une épée au fil tranchant comme un rasoir", 4)
         shield = Item("shield", 1, "bouclier pouvant parrer n'importe quelle attaque", 6)
         map = Item("map", 2, "carte magique permettant de vous repérer dans le monde et meme sous certaines conditions de vous téléporter !!!", 2)
-        boat = Item("boat", 4, "bateau magique pouvant traverser n'importe quelle étendu d'eau", 3)
-        oeil_du_voyageur = Item("oeil", 11, "Oeil magique ayant une fois appartenu a l'épervier de ganvié, il peut tout voir, nul mystere ne lui échappe !", 1)
-        village_de_DASSA_baobab.inventory["sword"] = sword
-        village_de_Ganvié.inventory["shield"] = shield
+        boat = Item("boat", 4, "bateau pour traverser n'importe quelle étendu d'eau", 3)
+        oeil_magique = Item("oeil", 11, "Oeil magique ayant une fois appartenu a l'épervier de ganvié, il peut tout voir, nul mystere ne lui échappe !", 1)
+        menteau_d_invisibilité = Item("menteau d'invisibilité", 13, "menteau mythique fait de peau de lion", 4)
+        gants = Item("gant", 7, "ce gants augmente la puissance de son utilisateur", 3)
+
+
+        marche_flottant.inventory["sword"] = sword
+        marche_flottant.inventory["shield"] = shield
         village_de_Ganvié.inventory["boat"] = boat
         arbre_voyageur.inventory["map"] = map
-        saule_pleureur.inventory["oeil"] = oeil_du_voyageur
+        saule_pleureur.inventory["oeil"] = oeil_magique
+        foret_sacrée.inventory["menteau d'invisibilité"]=menteau_d_invisibilité
+        foret_sacrée.inventory["gants"]=gants 
 
         # Setup room entities
-        guide = Character("Ancient", 2, "l'acient du village, il s'agit de l'homme le plus vieux et le plus sage de tout DASSA !", village_de_DASSA_baobab, {"salut":"Quel est ton nom jeune homme ?"}, False)
-        voyante = Character("Voyante", 3, "la voyante la plus compétente de tout le dahomey !", village_de_Ganvié, {"salut":"Quel est ton nom jeune homme ?"})
-        Room.entities[village_de_DASSA_baobab.name].append(guide)
-        Room.entities[village_de_Ganvié.name].append(voyante)
+        Atchede = Character("Atchede", 9, "votre frère ainé", village_de_DASSA_baobab, {"salut":"Salut mon frère", "vous allez m'aider dans ma quete":"que devons nous faire?","vaincre madaar":"d'accord !"})
+        Kacou = Character("Kacou", 5, "votre frère cadet", village_de_DASSA_baobab, {"salut":"Salut mon frère","vous allez m'aider dans ma quete":"que devons nous faire?","vaincre madaar":"d'accord !"})
+        mami_watta = Character("mami watta", 7, "esprit des eaux", saule_pleureur,{"salut":"qui es tu humain?", "Asnaem":"et que veux tu ?", "retourner dans mon monde":"pour ce faire cela ne sera pas simple, tu vas devoir etre assez fort pour vaincre madar et ses soldat mais pas que il te faudras aussi des objets magique que tu pourras trouver dans la foret sacrée...en attendant j'ai un cadeau pour toi"})
+        
+         
+        Room.entities[village_de_DASSA_baobab.name].append(Atchede)
+        Room.entities[village_de_DASSA_baobab.name].append(Kacou)
+        Room.entities[saule_pleureur.name].append(mami_watta)
 
         # Setup player and starting room
         self.player = Player(input("\nEntrez votre nom: "))
@@ -125,7 +135,7 @@ class Game:
         # Loop until the game is finished
         while not self.finished:
             # Get the command from the player
-            self.player.current_room.refresh_room_entities()
+            #self.player.current_room.refresh_room_entities()
             self.process_command(input("> "))
         return None
 
@@ -156,11 +166,12 @@ class Game:
 def main():
     # Create a game object and play the game
     Game().play()
-    #fonctionnalité pour befriend un npc
     #npc powered by chatgpt
     #interace graphique
     #carte en ascii
     #Nom du jeu en ascii
+    #mouvements aléatoire des npc
+    #fonction attaque et défense
     
 
 if __name__ == "__main__":

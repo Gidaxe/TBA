@@ -35,6 +35,7 @@ class Character():
         Aucune porte dans cette direction !
         False
     """
+    followers = {}
 
     # Define the constructor.
     def __init__(self, name, identifier, description, starting_room, msgs, nomade = True):
@@ -45,7 +46,6 @@ class Character():
         self.inventory = {}
         self.msgs = msgs
         self.nomade = nomade
-        self.following = False
         self.leader = None
 
     #String representation of the PNG
@@ -89,11 +89,20 @@ class Character():
 
     #Define the follow player function
     def follow_player(self, player):
+        room = self.current_room
+        character_index = room.get_entity(name=self.name,room_index=True)
         if self.nomade:
-            # Set the current room to the next room.
-            next_room = player.current_room
-            self.current_room.refresh_room_entities(self, self.current_room, next_room)
-            self.current_room = next_room
+            # Set the current room to the next room, remove npc from previous room entities list and add it to the new room's.
+            # Dans difficultés rencontrés, ne pas oublier de parler de ce fichu bug qui se passe qd on ne prends pas en compte la diff entre égalité mathématique et référence en progammation.
+            try:
+                room.room_entities.pop(character_index)
+                next_room = player.current_room
+                self.current_room = next_room
+                print(self.current_room.name)
+                self.current_room.room_entities.append(self)
+            finally:
+                return True
+
         else:
             print(f"{self.name} ne peut pas se déplacer !")
         return True

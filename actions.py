@@ -187,8 +187,8 @@ class Actions:
             return False
         
         try:
-            player.current_room.refresh_room_entities(player, player.current_room, player.history[-2])
             player.current_room = player.history[-2]
+            player.current_room.refresh_room_entities()
             history.pop()
             player.limit_history()
             player.get_history()
@@ -235,6 +235,7 @@ class Actions:
             return True
         
         player.inventory[item] = room.inventory.pop(item, None)
+        print(f"\nVous venez d'aquérir: {player.inventory[item].name}")
         return True
     
 
@@ -250,6 +251,7 @@ class Actions:
         
         item = list_of_words[1]
         room.inventory[item] = player.inventory.pop(item, None)
+        print(f"\nVous venez de déposer: {item}")
         return True
     
 
@@ -302,8 +304,9 @@ class Actions:
         elif destination == "quit":
             return True
         else:
-            player.current_room.refresh_room_entities(player, player.current_room, carte[destination])
             player.current_room = carte[destination]
+            player.current_room.refresh_room_entities()
+            print("les entités ont étés refresh")
             player.history.append(player.current_room)
             player.limit_history()
             player.get_history()
@@ -329,7 +332,7 @@ class Actions:
         
         if list_of_words[1] == "lock":
             if npc.nomade:
-                npc.following = True
+                npc.followers[npc.name] = npc
                 npc.leader = player
                 print(f'{npc.name} vous suis !')
                 return True
@@ -337,7 +340,7 @@ class Actions:
             return True
         
         if list_of_words[1] == "unlock":
-            npc.following = False
+            del npc.followers[npc.name]
             npc.leader = None
             print(f'{npc.name} ne vous suis plus !')
             return True
@@ -376,4 +379,3 @@ class Actions:
 
         print("Il n'y a personne de ce nom ici !")
         return True
-    ##écrire une commande beam
