@@ -82,7 +82,7 @@ class Player():
     # Define the move method.
     def move(self, direction):
         # Get the next room from the exits dictionary of the current room.
-        directions = {"nord":"N", "sud":"S", "est":"E", "ouest":"O", "up": "U", "down":"D", "n":"N", "s":"S", "e":"E", "o":"O", "u":"U", "d": "D"}
+        directions = {"nord":"N", "sud":"S", "est":"E", "ouest":"O", "up": "U", "down":"D", "n":"N", "s":"S", "e":"E", "o":"O", "u":"U", "d": "D","sudest":"SE","sudouest":"SO","nordest":"NE","nordouest":"NO", "se":"SE","so":"SO","ne":"NE","no":"NO"}
         try:
             direction = directions[direction.lower()]
         except KeyError:

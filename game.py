@@ -29,7 +29,7 @@ class Game:
         self.commands["help"] = help
         quit = Command("quit", " : quitter le jeu", Actions.quit, 0)
         self.commands["quit"] = quit
-        go = Command("go", " <direction> : se déplacer dans une direction cardinale (N, E, S, O, U, D)", Actions.go, 1)
+        go = Command("go", " <direction> : se déplacer dans une direction cardinale (N, E, S, O, U, D, NE, NO, SE, SO)", Actions.go, 1)
         self.commands["go"] = go
         vide = Command("", " : cette commande ne fait rien", Actions.vide, 0)
         self.commands[""] = vide
@@ -53,6 +53,8 @@ class Game:
         self.commands["lead"] = lead
         talk = Command("talk", " <PNJ> : parler avec une personne", Actions.talk, 1)
         self.commands["talk"] = talk
+        use = Command("use", " <objet> : utiliser un objet", Actions.use, 1)
+        self.commands["use"] = use
 
         
         # Setup rooms
@@ -83,18 +85,18 @@ class Game:
         self.rooms.append(chambre_secrete_du_roi)
         # Create exits for rooms
 
-        village_de_DASSA_baobab.exits = {"N" : Grotte, "E" : village_de_Ganvié, "S" : chateau_de_madar, "O" : foret_sacrée, "U" : None, "D" : None}
+        village_de_DASSA_baobab.exits = {"N" : Grotte, "E" : None, "S" : chateau_de_madar, "O" : None, "U" : None, "D" : None, "NE": None,"NO": None, "SE": village_de_Ganvié, "SO": None}
         labo_du_docteur.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None , "D" : None}
-        Grotte.exits = {"N" : None, "E" : None, "S" : village_de_DASSA_baobab, "O" : None, "U" : None, "D" : None}
-        foret_sacrée.exits = {"N" : None, "E" : village_de_DASSA_baobab, "S" : None, "O" : None, "U" : arbre_voyageur, "D" : None}
-        arbre_voyageur.exits = {"N" : None, "E" : None, "S" : chateau_de_madar, "O" : None, "U" : None, "D" : foret_sacrée}
-        village_de_Ganvié.exits = {"N" : saule_pleureur, "E" : None, "S" : None, "O" : village_de_DASSA_baobab, "U" : marche_flottant, "D" : None}
-        marche_flottant.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : village_de_Ganvié}
-        saule_pleureur.exits = {"N" : None, "E" : None, "S" : village_de_Ganvié, "O" : None, "U" : None, "D" : None}
-        chateau_de_madar.exits = {"N" : None, "E" : chambre_secrete_du_roi, "S" : salle_du_trone, "O" : terrain_d_entrainement, "U" : None, "D" : None}
-        terrain_d_entrainement.exits = {"N" : None, "E" : chateau_de_madar, "S" : None, "O" : None, "U" : None, "D" : None}
-        salle_du_trone.exits = {"N" : chateau_de_madar, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None}
-        chambre_secrete_du_roi.exits = {"N" : None, "E" : None, "S" : None, "O" : chateau_de_madar, "U" : None, "D" : None}
+        Grotte.exits = {"N" : None, "E" : None, "S" : village_de_DASSA_baobab, "O" : None, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
+        foret_sacrée.exits = {"N" : None, "E" : village_de_Ganvié, "S" : None, "O" : None, "U" : arbre_voyageur, "D" : None, "D" : None, "NE": None ,"NO": None, "SE": None, "SO": None}
+        arbre_voyageur.exits = {"N" : None, "E" : None, "S" : chateau_de_madar, "O" : None, "U" : None, "D" : foret_sacrée,"NE": None,"NO": None, "SE": None, "SO": None}
+        village_de_Ganvié.exits = {"N" : saule_pleureur, "E" : None, "S" : None, "O" : None, "U" : marche_flottant, "D" : None, "D" : None, "NE": None,"NO": village_de_DASSA_baobab, "SE": None, "SO": None}
+        marche_flottant.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : village_de_Ganvié, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
+        saule_pleureur.exits = {"N" : None, "E" : None, "S" : village_de_Ganvié, "O" : None, "U" : None, "D" : None,  "NE": None,"NO": None, "SE": None, "SO": None}
+        chateau_de_madar.exits = {"N" : None, "E" : chambre_secrete_du_roi, "S" : salle_du_trone, "O" : terrain_d_entrainement, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
+        terrain_d_entrainement.exits = {"N" : None, "E" : chateau_de_madar, "S" : None, "O" : None, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
+        salle_du_trone.exits = {"N" : chateau_de_madar, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
+        chambre_secrete_du_roi.exits = {"N" : None, "E" : None, "S" : None, "O" : chateau_de_madar, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
 
         # Setup room inventories
         sword = Item("sword", 0, "une épée au fil tranchant comme un rasoir", 4)
@@ -102,8 +104,8 @@ class Game:
         map = Item("map", 2, "carte magique permettant de vous repérer dans le monde et meme sous certaines conditions de vous téléporter !!!", 2)
         boat = Item("boat", 4, "bateau pour traverser n'importe quelle étendu d'eau", 3)
         oeil_magique = Item("oeil", 11, "Oeil magique ayant une fois appartenu a l'épervier de ganvié, il peut tout voir, nul mystere ne lui échappe !", 1)
-        menteau_d_invisibilité = Item("menteau d'invisibilité", 13, "menteau mythique fait de peau de lion", 4)
-        gants = Item("gant", 7, "ce gants augmente la puissance de son utilisateur", 3)
+        menteau_d_invisibilité = Item("menteau_d_invisibilité", 13, "menteau mythique fait de peau de lion", 4)
+        gants = Item("gants", 7, "ce gants augmente la puissance de son utilisateur", 3)
 
 
         marche_flottant.inventory["sword"] = sword
@@ -111,7 +113,7 @@ class Game:
         village_de_Ganvié.inventory["boat"] = boat
         arbre_voyageur.inventory["map"] = map
         saule_pleureur.inventory["oeil"] = oeil_magique
-        foret_sacrée.inventory["menteau d'invisibilité"]=menteau_d_invisibilité
+        foret_sacrée.inventory["menteau_d_invisibilité"]=menteau_d_invisibilité
         foret_sacrée.inventory["gants"]=gants 
 
         # Setup room entities

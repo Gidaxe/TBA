@@ -295,18 +295,15 @@ class Actions:
         elif "map" not in player.inventory.keys():
             print("Vous ne pouvez pas vous téléporter sans la carte magique")
             return True
-        print('vous ne pouvez vous téléporter que dans les pièces enregistré dans votre carte magique.')
+        print('Vous ne pouvez vous téléporter que dans les lieux que vous avez déjà visité !.')
         print([ i for i in carte.keys()])
         #choix de la destination et téléportation
         destination = input("portail magique>")
         if destination not in carte.keys():
             print(f"vous ne pouvez pas vous téléporter à {destination}")
-        elif destination == "quit":
-            return True
         else:
             player.current_room = carte[destination]
             player.current_room.refresh_room_entities()
-            print("les entités ont étés refresh")
             player.history.append(player.current_room)
             player.limit_history()
             player.get_history()
@@ -379,3 +376,52 @@ class Actions:
 
         print("Il n'y a personne de ce nom ici !")
         return True
+    
+
+    def use(game, list_of_words, number_of_parameters):
+        player = game.player
+        actions = {"map":(Actions.look_map, game), "boat":(Actions.naviger, game)}
+
+        l = len(list_of_words)
+        if l != number_of_parameters + 1:
+            command_word = list_of_words[0]
+            print(MSG1.format(command_word=command_word))
+            return False
+        
+        item = list_of_words[1]
+        
+        if item not in player.inventory.keys():
+            print(f"L'objet {item} n'est pas dans votre inventaire")
+            return True
+        
+        action = actions.get(item, (Actions.innexistant, item))
+        action[0](action[1])
+        return True
+    
+    def innexistant(item):
+        print(f"L'objet {item} ne fais rien !")
+
+    
+    def look_map(game):
+        print([room.name for room in game.rooms])
+
+
+    def naviger(game):
+        player = game.player
+        room = player.current_room
+        if room.name != "village de ganvié":
+            print("Vous ne pouvez pas utiliser le bateau ici !")
+            return True
+        try:
+            next_room = [room for room in game.rooms if room.name == "foret sacrée"].pop()
+            player.current_room = next_room
+            player.current_room.refresh_room_entities()
+            player.history.append(player.current_room)
+            player.limit_history()
+            player.get_history()
+            print("Bienvenu dans la foret_sacrée jeune matelot, avez vous fait un bon voyage ? \n")
+            print(player.current_room.get_long_description())
+        except:
+            pass
+        finally:
+            return

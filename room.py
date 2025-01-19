@@ -71,7 +71,6 @@ class Room:
     
     # Define the get_exit method.
     def get_exit(self, direction):
-
         # Return the room in the given direction if it exists.
         if direction in self.exits.keys():
             return self.exits[direction]
