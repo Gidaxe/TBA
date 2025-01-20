@@ -98,7 +98,6 @@ class Player():
         # Set the current room to the next room.
         self.current_room = next_room
         self.current_room.refresh_room_entities()
-        print("les entités ont étés refresh")
         self.history.append(self.current_room)
         self.limit_history()
         return True

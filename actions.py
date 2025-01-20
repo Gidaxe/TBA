@@ -1,4 +1,41 @@
 import item as obj
+carte_monde =  '''
+                                         ~~~~~~~~~~~~~~~~~~~~
+                       (Grotte)          ~ (Saule ~~~~~~~~~~~~~~
+                          |             ~ Pleureur) ~~~~~~~~~~~~~~~~
+                (Village de DASSA)       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                      /       \            /~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     /         \          /~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    |           \        /~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    |           (Village de Ganvié)--- ~ (Marché  ~~
+   ROYAUME          |                ~~~~~/           ~ Flottant) ~
+   DU               |                ~~~~/~~~~~~~~~~~~~~~~~~~~~~~~~
+   DAHOMEY          |              ~~~~~/~~~~~~~~~~~~~~~~~~~~~~~~
+                    |              ~~~~~|~~~~~~~~~~~~~~~~~~~~~~~
+                   /              ~~~~~~|~~~~~~~~~~~~~~~~~~~~~                     
+                  /                ~~~~~|~~~~~~~~~~~~~~~~~~~~~~~
+   (Château de Mansa Madar)   ~~~~~  (Forêt  ~~~~~~ LAC ~~~~~~~~~~~~~~~
+                            ~~~~~~~  Sacrée) ~~~~~~ DE ~~~~~~~~~~~~~~~~~
+                          ~~~~~~~~~    |     ~~~~~~ GANVIE ~~~~~~~~~~~
+                      ~~~~~~~~~~~~~    |     ~~~~~~~~~~~~~~~~~~~~~
+                 ~~~~~~~~~~~~~~~~~~  (Arbre  ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    du    ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Voyageur)~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+'''
+
+
+Titre = '''
+    __  __                         ____   ____        __                              
+   / / / /__  _________     ____  / __/  / __ \____ _/ /_  ____  ____ ___  ___  __  __
+  / /_/ / _ \/ ___/ __ \   / __ \/ /_   / / / / __ `/ __ \/ __ \/ __ `__ \/ _ \/ / / /
+ / __  /  __/ /  / /_/ /  / /_/ / __/  / /_/ / /_/ / / / / /_/ / / / / / /  __/ /_/ / 
+/_/ /_/\___/_/   \____/   \____/_/    /_____/\__,_/_/ /_/\____/_/ /_/ /_/\___/\__, /  
+                                                                             /____/   
+'''
+
+
 #from game import DEBUG
 # Description: The actions module.
 
@@ -168,7 +205,8 @@ class Actions:
             command_word = list_of_words[0]
             print(MSG0.format(command_word=command_word))
             return False
-        
+        print("Bienvenue dans:")
+        print(Titre)
         player.current_room = game.rooms[1]
         player.history.append(player.current_room)
         print(player.current_room.get_long_description())
@@ -208,7 +246,8 @@ class Actions:
             command_word = list_of_words[0]
             print(MSG0.format(command_word=command_word))
             return False
-        
+        print(f"\n{room.name}")
+        print(f"\n{room.get_exit_string()}")
         room.get_inventory()
         room.get_entities(show=True)
         return True
@@ -363,19 +402,84 @@ class Actions:
             return False
         
         npc = list_of_words[1]
-        entities = player.current_room.entities[player.current_room.name]
-        
-        for ent in entities:
-            if ent.name == npc:
-                while True:
-                    msg = input(f"\ntappez 'bye' pour arreter de parler avec {ent.name} \nDiscussion>")
-                    if msg == "bye":
-                        print("Au revoir jeune aventurier !")
-                        return True
-                    print(ent.get_msg(msg))
+        entity = player.current_room.get_entity(npc)
 
-        print("Il n'y a personne de ce nom ici !")
-        return True
+        if not entity:
+            return True
+
+        if entity.echange:
+            print(f"\nTappez 'commerce' pour commercer avec {entity.name}")
+        while True:
+            print(f"Tappez 'bye' pour arreter de parler avec {entity.name}")
+            msg = input(f"\nDiscussion>")
+            if msg == "bye":
+                print(f"{entity.name}: Au revoir jeune aventurier !")
+                return True
+            elif msg == "commerce":
+                Actions.echanger(player, entity)
+                return True
+            print(entity.get_msg(msg))
+
+    
+    def echanger(player, merchant):
+        print(f"{merchant.name}: Que veux-tu faire ? acheter, vendre ou echanger ?")
+        choix = input(f"\nOption>")
+        if choix not in ("acheter","vendre","echanger"):
+            print(f"\n{merchant.name}: Désolé, mais je ne peux pas vous aider !")
+            return True
+        
+        if choix == "acheter":
+            Actions.acheter(player, merchant)
+            return True
+        elif choix == "vendre":
+            Actions.vendre(player, merchant)
+            return True
+        else:
+            pass   
+
+
+    
+    def acheter(player, merchant):
+        stock = [item for item in merchant.inventory]
+        print(f"\n{merchant.name}: Que veux-tu acheter ?")
+        print(stock)
+        while True:
+            print(f"Tappez 'bye' pour arreter de parler avec {merchant.name}")
+            msg = input(f"\nAcheter>")
+            if msg == "bye":
+                print(f"{merchant.name}: Ravi de faire affaire avec toi !!!\nAu revoir jeune aventurier !")
+                return True
+            elif msg in stock:
+                player.inventory[msg] = merchant.inventory[msg]
+                del merchant.inventory[msg]
+                print(f"{merchant.name}: Très bon choix !")
+                print(f"\nVous venez d'acquérir {msg} !")
+                Actions.acheter(player, merchant)
+                return True
+            else:
+                print(f"{merchant.name}: Je ne possède pas de {msg} !")
+
+
+    def vendre(player,merchant):
+        stock = [item for item in player.inventory]
+        print(f"\n{merchant.name}: Que veux-tu me vendre ?")
+        print("Inventaire:")
+        print(stock)
+        while True:
+            print(f"Tappez 'bye' pour arrêter de parler avec {merchant.name}")
+            msg = input(f"\nVendre>")
+            if msg == "bye":
+                print(f"{merchant.name}: Ravi de faire affaire avec toi !!!\nAu revoir jeune aventurier !")
+                return True
+            elif msg in stock:
+                merchant.inventory[msg] = player.inventory[msg]
+                del player.inventory[msg]
+                print(f"{merchant.name}: Très interessant !")
+                print(f"\nVous venez de vendre {msg} à {merchant.name} !")
+                Actions.vendre(player, merchant)
+                return True
+            else:
+                print(f"{merchant.name}: Je ne possède pas de {msg} !")
     
 
     def use(game, list_of_words, number_of_parameters):
@@ -403,25 +507,32 @@ class Actions:
 
     
     def look_map(game):
-        print([room.name for room in game.rooms])
+        print(carte_monde)
 
 
     def naviger(game):
+        #ajouter le marcher flottant et l'allée retour.
         player = game.player
         room = player.current_room
-        if room.name != "village de ganvié":
+        destinations = [room for room in game.rooms if room.lacustre]
+        destination_names = [room.name for room in destinations if room != player.current_room]
+
+        if room not in destinations:
             print("Vous ne pouvez pas utiliser le bateau ici !")
             return True
+        
         try:
-            next_room = [room for room in game.rooms if room.name == "foret sacrée"].pop()
+            print('\nOù voulez vous aller matelot ?')
+            print(f"\n{destination_names}")
+            destination = input("\nDestination>")
+            next_room = [room for room in destinations if room.name == destination].pop()
             player.current_room = next_room
             player.current_room.refresh_room_entities()
             player.history.append(player.current_room)
             player.limit_history()
             player.get_history()
-            print("Bienvenu dans la foret_sacrée jeune matelot, avez vous fait un bon voyage ? \n")
             print(player.current_room.get_long_description())
         except:
-            pass
+            print(f"\nLa destination {destination} n'existe pas !")
         finally:
             return

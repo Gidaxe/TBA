@@ -1,0 +1,17 @@
+acheter aux npc (mettre ca dans character.py) XXX
+nom du jeu en ascii XX
+on interdit au perso principal d'entrer dans la salle du throne avec ses freres.
+mouvements aléatoire des npc
+
+interface graphique
+petite voix qui lui dit quoi faire
+
+
+game over
+fonction attaque et defense
+ajouter des ennemis dans la salle du throne et sur le terrain d'entrainement de facon a ce que le player soit eliminé s'il y va avant d'etre pret.
+
+
+reference a un oba lointain et a Anansi
+enlever la starter room aux npc
+fonctionnalités d'auto-comletion/choix de dialogue avec les npc

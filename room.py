@@ -61,13 +61,18 @@ class Room:
             print(f"{entity.name} vous suis vers {entity.leader.current_room.name}.")
 
     # Define the constructor. 
-    def __init__(self, name, description):
+    def __init__(self, name, description, lacustre = False):
         self.name = name
         self.description = description
         self.exits = {}
         self.inventory = {}
+        self.lacustre = lacustre
         Room.entities[self.name] = []
         self.room_entities = Room.entities[self.name]
+
+    #Define the string representation of a room
+    def __str__(self):
+        return self.name
     
     # Define the get_exit method.
     def get_exit(self, direction):
@@ -88,7 +93,7 @@ class Room:
 
     # Return a long description of this room including exits.
     def get_long_description(self):
-        return f"\nVous êtes dans {self.description}\n\n{self.get_exit_string()}\n"
+        return f"\nVous êtes {self.description}\n\n{self.get_exit_string()}\n"
     
     #Define the get_inventroy method
     def get_inventory(self):
@@ -98,12 +103,11 @@ class Room:
                 if self.inventory[key] != None:
                     print(f"\n\t- {self.inventory[key]}")
         else:
-            print("\nIl n'y a rien ici.")
+            print("\nIl n'y a aucun objet ici.")
 
     #Define the get_entity method returns either the entity's id, their index in the room they are in or the entity itself (Character instance).
     def get_entity(self, name, id=None, room_index=None):
         cmpt = 0
-        print(self.name)
         for i in range(len(self.room_entities)):
             if self.room_entities[i].name == name:
                 ent = self.room_entities[i]

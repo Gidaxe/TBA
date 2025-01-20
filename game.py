@@ -23,80 +23,114 @@ class Game:
     # Setup the game
     def setup(self):
 
+
         # Setup commands
-
         help = Command("help", " : afficher cette aide", Actions.help, 0)
-        self.commands["help"] = help
         quit = Command("quit", " : quitter le jeu", Actions.quit, 0)
-        self.commands["quit"] = quit
         go = Command("go", " <direction> : se déplacer dans une direction cardinale (N, E, S, O, U, D, NE, NO, SE, SO)", Actions.go, 1)
-        self.commands["go"] = go
         vide = Command("", " : cette commande ne fait rien", Actions.vide, 0)
-        self.commands[""] = vide
         connexion = Command("connexion", " : accéder au monde virtuel", Actions.connexion, 0)
-        self.commands["connexion"] = connexion
         back = Command("back", " : cette commande permet au joueur de retourner à sa dernière destination.", Actions.back, 0)
-        self.commands["back"] = back
         look = Command("look", " : regarder quels objets sont dans la salle", Actions.look, 0)
-        self.commands["look"] = look
         take = Command("take", " <objet> : prendre un objet", Actions.take, 1)
-        self.commands["take"] = take
         drop = Command("drop", " <objet> : déposer un objet", Actions.drop, 1)
-        self.commands["drop"] = drop
         check = Command("check", " : observer son inventaire", Actions.check, 0)
-        self.commands["check"] = check
         items = Command("items", " : lister tous les objets presents dans le jeu", Actions.items, 0)
-        self.commands["items"] = items
         beam = Command("beam", " : se téléporter dans un endroit déjà visité au moins une fois.", Actions.beam, 0)
-        self.commands["beam"] = beam
         lead = Command("lead", " <direction> <PNJ> || <lock/unlock> <PNJ> : se déplacer d'une salle a l'autre avec un npc", Actions.lead, 2)
-        self.commands["lead"] = lead
         talk = Command("talk", " <PNJ> : parler avec une personne", Actions.talk, 1)
-        self.commands["talk"] = talk
         use = Command("use", " <objet> : utiliser un objet", Actions.use, 1)
-        self.commands["use"] = use
 
+
+        self.commands["help"] = help
+        self.commands["quit"] = quit
+        self.commands["go"] = go
+        self.commands[""] = vide
+        self.commands["connexion"] = connexion
+        self.commands["back"] = back
+        self.commands["look"] = look
+        self.commands["take"] = take
+        self.commands["drop"] = drop
+        self.commands["check"] = check
+        self.commands["items"] = items
+        self.commands["beam"] = beam
+        self.commands["lead"] = lead
+        self.commands["talk"] = talk
+        self.commands["use"] = use
+        
         
         # Setup rooms
-
-        labo_du_docteur = Room("Labo", "dans le laboratoire du docteur madarrrrrrrrrr.")
-        self.rooms.append(labo_du_docteur)
-        village_de_DASSA_baobab = Room("village de DASSA", "dans le village de DASSA.")
-        self.rooms.append(village_de_DASSA_baobab)
+        labo_du_docteur = Room("Labo", "dans le laboratoire du docteur madar, il revient bientot. Vite connectez-vous à son jeu si vous voulez survivre !.")
         Grotte   = Room("Grotte", "dans une grotte sombre avec des chauves souris et des serpents.")
-        self.rooms.append(Grotte)
-        foret_sacrée = Room("foret sacrée", "dans la foret sacré à l'interieur du temple au python")
-        self.rooms.append(foret_sacrée)
-        arbre_voyageur = Room("Arbre voyageur", "sur un arbre particulier qui a la capacité de vous téléporté à des endroits précis .")
-        self.rooms.append(arbre_voyageur)
-        village_de_Ganvié = Room("village de ganvié", "à l'ambarcadaire du village de ganvié, autour de vous il y a des bes cannots et des femmes qui vendent du poisson.")
-        self.rooms.append(village_de_Ganvié)
-        marche_flottant = Room("Tourciel","sur le marché flottant du village de ganvié, ce marché est assez particulier il a été crée par les dieux et vous pouvez y trouver des objets magiques.")
-        self.rooms.append(marche_flottant)
-        saule_pleureur = Room("saule pleureur","sous le saule pleureur.")
-        self.rooms.append(saule_pleureur)
+        village_de_DASSA_baobab = Room("village de DASSA", "dans le village de DASSA.")
+        
         chateau_de_madar = Room("chateau de madar","dans le chateau de madar, un immense chateau peu éclairé.")
-        self.rooms.append(chateau_de_madar)
         terrain_d_entrainement= Room("terrain d'entrainement","sur le terrain d'entrainnement des agojié, les soldat d'élites du Roi Madarrrrrr.")
-        self.rooms.append(terrain_d_entrainement)
         salle_du_trone = Room("Salle du trone","dans la salle du trone de madar.")
-        self.rooms.append(salle_du_trone)
         chambre_secrete_du_roi = Room("chambre secrète","dans la chambre secrète de madar, cette pièce contient de nombreux secrets dont la solution pour sortir du jeu.")
-        self.rooms.append(chambre_secrete_du_roi)
-        # Create exits for rooms
 
-        village_de_DASSA_baobab.exits = {"N" : Grotte, "E" : None, "S" : chateau_de_madar, "O" : None, "U" : None, "D" : None, "NE": None,"NO": None, "SE": village_de_Ganvié, "SO": None}
+        village_de_Ganvié = Room("village de ganvié", "à l'ambarcadaire du village de ganvié, autour de vous il y a des bes cannots et des femmes qui vendent du poisson.", True)
+        marche_flottant = Room("Marché flottant","sur le marché flottant du village de ganvié, ce marché est assez particulier il a été crée par les dieux et vous pouvez y trouver des objets magiques.", True)
+        saule_pleureur = Room("saule pleureur","sous le saule pleureur, en plein dans le repere de Mami Wata", True)
+
+        foret_sacrée = Room("foret sacrée", "dans la foret sacré à l'interieur du temple au python", True)
+        arbre_voyageur = Room("Arbre voyageur", "sur un arbre particulier qui a la capacité de vous téléporté à des endroits précis .")
+        
+        self.rooms.append(labo_du_docteur)
+        self.rooms.append(Grotte)
+        self.rooms.append(village_de_DASSA_baobab)
+
+        self.rooms.append(chateau_de_madar)
+        self.rooms.append(terrain_d_entrainement)
+        self.rooms.append(salle_du_trone)
+        self.rooms.append(chambre_secrete_du_roi)
+        
+        self.rooms.append(village_de_Ganvié)
+        self.rooms.append(marche_flottant)
+        self.rooms.append(saule_pleureur)
+
+        self.rooms.append(foret_sacrée)
+        self.rooms.append(arbre_voyageur)
+        
+
+        # Create exits for rooms
         labo_du_docteur.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None , "D" : None}
         Grotte.exits = {"N" : None, "E" : None, "S" : village_de_DASSA_baobab, "O" : None, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
-        foret_sacrée.exits = {"N" : None, "E" : village_de_Ganvié, "S" : None, "O" : None, "U" : arbre_voyageur, "D" : None, "D" : None, "NE": None ,"NO": None, "SE": None, "SO": None}
-        arbre_voyageur.exits = {"N" : None, "E" : None, "S" : chateau_de_madar, "O" : None, "U" : None, "D" : foret_sacrée,"NE": None,"NO": None, "SE": None, "SO": None}
-        village_de_Ganvié.exits = {"N" : saule_pleureur, "E" : None, "S" : None, "O" : None, "U" : marche_flottant, "D" : None, "D" : None, "NE": None,"NO": village_de_DASSA_baobab, "SE": None, "SO": None}
-        marche_flottant.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : village_de_Ganvié, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
-        saule_pleureur.exits = {"N" : None, "E" : None, "S" : village_de_Ganvié, "O" : None, "U" : None, "D" : None,  "NE": None,"NO": None, "SE": None, "SO": None}
-        chateau_de_madar.exits = {"N" : None, "E" : chambre_secrete_du_roi, "S" : salle_du_trone, "O" : terrain_d_entrainement, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
+        village_de_DASSA_baobab.exits = {"N" : Grotte, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None, "NE": None,"NO": None, "SE": village_de_Ganvié, "SO": chateau_de_madar}
+        
+        chateau_de_madar.exits = {"N" : None, "E" : None, "S" : salle_du_trone, "O" : terrain_d_entrainement, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
         terrain_d_entrainement.exits = {"N" : None, "E" : chateau_de_madar, "S" : None, "O" : None, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
         salle_du_trone.exits = {"N" : chateau_de_madar, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
         chambre_secrete_du_roi.exits = {"N" : None, "E" : None, "S" : None, "O" : chateau_de_madar, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
+
+        village_de_Ganvié.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None, "D" : None, "NE": None,"NO": village_de_DASSA_baobab, "SE": None, "SO": None}
+        marche_flottant.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
+        saule_pleureur.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None,  "NE": None,"NO": None, "SE": None, "SO": None}
+
+        foret_sacrée.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : arbre_voyageur, "D" : None, "D" : None, "NE": None ,"NO": None, "SE": None, "SO": None}
+        arbre_voyageur.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : foret_sacrée,"NE": None,"NO": None, "SE": None, "SO": None}
+        #chateau_de_madar.exits = {"N" : None, "E" : chambre_secrete_du_roi, "S" : salle_du_trone, "O" : terrain_d_entrainement, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
+        
+
+        # Setup room entities
+        Atchede = Character("Atchede", 9, "votre frère ainé", village_de_DASSA_baobab, {"salut":"Salut mon frère", "j'ai besoin de votre aide pour sortir de ce monde":"que devons nous faire?","m'accompagner":"d'accord !"})
+        Kacou = Character("Kacou", 5, "votre frère cadet", village_de_DASSA_baobab, {"salut":"Salut mon frère","j'ai besoin de votre aide pour sortir de se monde":"que devons nous faire?","m'accompagner":"d'accord !"})
+        mami_watta = Character("mami_watta", 7, "esprit des eaux", saule_pleureur, {"salut":"qui es tu humain?", "Asnaem":"et que veux tu ?", "retourner dans mon monde":"pour ce faire cela ne sera pas simple, tu vas devoir etre assez fort pour vaincre madar et ses soldat mais pas que il te faudras aussi des objets magique que tu pourras trouver dans la foret sacrée...en attendant j'ai un cadeau pour toi","quelle est ce cadeau ?": "d'abord tu dois resoudre une enigme", "ok":"***********", "*******":"felicitation tu obtient l'oeil magique qui te permet de voir toute chose meme celles qui sont invisible pour le commun des mortelles"}, False, True)
+        pecheur = Character("pecheur", 21, "un simple pecheur",village_de_Ganvié, {"salut": "salut", "je cherche le marché flottant":"pour aller au marcher flottant vous devez embarquer sur un bateau et aller vers le ****","merci !": " de rien"}, False, True)
+        marchand = Character("marchand", 19, " vendeur d'objets magique",marche_flottant, {"salut": "salut jeune homme", "je veux un objet magique puissant": "j'ai plusieurs objets dont une potion magique, un menteau d'invisibilité et des gants", "je prend la potion":"d'accord", "je prend les gants" : "d'accord", "je prend le bouclier": "ok", "je prend le menteau": "ok"}, False, True)
+        Madar = Character("Madar", 22, "version virtuelle du concepteur de ce monde", salle_du_trone, {"c'est toi madar?": "oui", "je vais te vaincre pour retrouver mon monde":"essaie pour voir enfant !"}, False)
+        le_sage_du_village = Character("le_sage_du_village",13,"du haut de ses 120 ans il connait tout les secrets de ce monde", Grotte, {"salut":"Bienvenu mon enfant", "comment puis-je sortir de ce monde ?": "Pour sortir de ce monde tu va devoir vaincre madar qui est celui qui l'a crée, et le dirige d'une main de fer !"}, False)
+        le_sorcier= Character("le_sorcier",23, "sorcier chargé de la formation des gueriers dans le temple",foret_sacrée, {"salut":"salut les jeunes !","nous voulons suivre votre entrainement":"avec plaisir ! suivez moi" }, False)        
+         
+        Room.entities[village_de_DASSA_baobab.name].append(Atchede)
+        Room.entities[village_de_DASSA_baobab.name].append(Kacou)
+        Room.entities[saule_pleureur.name].append(mami_watta)
+        Room.entities[village_de_Ganvié.name].append(pecheur)
+        Room.entities[marche_flottant.name].append(marchand)
+        Room.entities[salle_du_trone.name].append(Madar)
+        Room.entities[Grotte.name].append(le_sage_du_village)
+        Room.entities[foret_sacrée.name].append(le_sorcier)
+
 
         # Setup room inventories
         sword = Item("sword", 0, "une épée au fil tranchant comme un rasoir", 4)
@@ -106,25 +140,17 @@ class Game:
         oeil_magique = Item("oeil", 11, "Oeil magique ayant une fois appartenu a l'épervier de ganvié, il peut tout voir, nul mystere ne lui échappe !", 1)
         menteau_d_invisibilité = Item("menteau_d_invisibilité", 13, "menteau mythique fait de peau de lion", 4)
         gants = Item("gants", 7, "ce gants augmente la puissance de son utilisateur", 3)
+        potion_magique = Item("potion_magique", 8, "potions permettant de recuperer sa force apres un combat", 2)
 
-
-        marche_flottant.inventory["sword"] = sword
-        marche_flottant.inventory["shield"] = shield
-        village_de_Ganvié.inventory["boat"] = boat
+        village_de_DASSA_baobab.inventory["sword"] = sword
+        foret_sacrée.inventory["shield"] = shield 
+        pecheur.inventory["boat"] = boat
         arbre_voyageur.inventory["map"] = map
-        saule_pleureur.inventory["oeil"] = oeil_magique
-        foret_sacrée.inventory["menteau_d_invisibilité"]=menteau_d_invisibilité
-        foret_sacrée.inventory["gants"]=gants 
+        mami_watta.inventory["oeil"] = oeil_magique
+        marchand.inventory["menteau_d_invisibilité"] = menteau_d_invisibilité
+        marchand.inventory["gants"] = gants
+        marchand.inventory["potion_magique"] = potion_magique
 
-        # Setup room entities
-        Atchede = Character("Atchede", 9, "votre frère ainé", village_de_DASSA_baobab, {"salut":"Salut mon frère", "vous allez m'aider dans ma quete":"que devons nous faire?","vaincre madaar":"d'accord !"})
-        Kacou = Character("Kacou", 5, "votre frère cadet", village_de_DASSA_baobab, {"salut":"Salut mon frère","vous allez m'aider dans ma quete":"que devons nous faire?","vaincre madaar":"d'accord !"})
-        mami_watta = Character("mami watta", 7, "esprit des eaux", saule_pleureur,{"salut":"qui es tu humain?", "Asnaem":"et que veux tu ?", "retourner dans mon monde":"pour ce faire cela ne sera pas simple, tu vas devoir etre assez fort pour vaincre madar et ses soldat mais pas que il te faudras aussi des objets magique que tu pourras trouver dans la foret sacrée...en attendant j'ai un cadeau pour toi"})
-        
-         
-        Room.entities[village_de_DASSA_baobab.name].append(Atchede)
-        Room.entities[village_de_DASSA_baobab.name].append(Kacou)
-        Room.entities[saule_pleureur.name].append(mami_watta)
 
         # Setup player and starting room
         self.player = Player(input("\nEntrez votre nom: "))
@@ -137,7 +163,6 @@ class Game:
         # Loop until the game is finished
         while not self.finished:
             # Get the command from the player
-            #self.player.current_room.refresh_room_entities()
             self.process_command(input("> "))
         return None
 
@@ -168,12 +193,12 @@ class Game:
 def main():
     # Create a game object and play the game
     Game().play()
-    #npc powered by chatgpt
     #interace graphique
-    #carte en ascii
     #Nom du jeu en ascii
     #mouvements aléatoire des npc
     #fonction attaque et défense
+    #fonctionnalité de commerce
+    #on interdit au perso principal d'entrer dans la salle du throne avec ses freres.
     
 
 if __name__ == "__main__":

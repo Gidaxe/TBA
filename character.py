@@ -38,7 +38,7 @@ class Character():
     followers = {}
 
     # Define the constructor.
-    def __init__(self, name, identifier, description, starting_room, msgs, nomade = True):
+    def __init__(self, name, identifier, description, starting_room, msgs, nomade = True, echange = False):
         self.id = identifier
         self.name = name
         self.description = description
@@ -46,6 +46,7 @@ class Character():
         self.inventory = {}
         self.msgs = msgs
         self.nomade = nomade
+        self.echange = echange
         self.leader = None
 
     #String representation of the PNG
@@ -63,7 +64,7 @@ class Character():
             print(f"\n{self.name} n'a rien a vous offrir !")
     
     def get_msg(self, prompt):
-        return self.msgs.get(prompt, "huuummm")
+        return self.name + ": " + self.msgs.get(prompt, "huuummm")
 
             
 
@@ -98,7 +99,6 @@ class Character():
                 room.room_entities.pop(character_index)
                 next_room = player.current_room
                 self.current_room = next_room
-                print(self.current_room.name)
                 self.current_room.room_entities.append(self)
             finally:
                 return True
