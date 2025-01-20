@@ -4,16 +4,16 @@ carte_monde =  '''
                        (Grotte)          ~ (Saule ~~~~~~~~~~~~~~
                           |             ~ Pleureur) ~~~~~~~~~~~~~~~~
                 (Village de DASSA)       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                      /       \            /~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                     /         \          /~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                    |           \        /~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                    |           (Village de Ganvié)--- ~ (Marché  ~~
-   ROYAUME          |                ~~~~~/           ~ Flottant) ~
-   DU               |                ~~~~/~~~~~~~~~~~~~~~~~~~~~~~~~
-   DAHOMEY          |              ~~~~~/~~~~~~~~~~~~~~~~~~~~~~~~
-                    |              ~~~~~|~~~~~~~~~~~~~~~~~~~~~~~
-                   /              ~~~~~~|~~~~~~~~~~~~~~~~~~~~~                     
-                  /                ~~~~~|~~~~~~~~~~~~~~~~~~~~~~~
+                      /       \        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     /         \      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    |           \    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    |           (Village de Ganvié)~~~ ~ (Marché  ~~
+   ROYAUME          |                ~~~~~~~~~~~~~~~~~~ Flottant) ~
+   DU               |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   DAHOMEY          |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                   /              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~                     
+                  /                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    (Château de Mansa Madar)   ~~~~~  (Forêt  ~~~~~~ LAC ~~~~~~~~~~~~~~~
                             ~~~~~~~  Sacrée) ~~~~~~ DE ~~~~~~~~~~~~~~~~~
                           ~~~~~~~~~    |     ~~~~~~ GANVIE ~~~~~~~~~~~
@@ -224,9 +224,13 @@ class Actions:
             print(MSG0.format(command_word=command_word))
             return False
         
+        if player.current_room.solo:
+            print("Vous ne pouvez plus faire marche arrière jeune héro !!!")
+            return True
+        
         try:
             player.current_room = player.history[-2]
-            player.current_room.refresh_room_entities()
+            player.current_room.refresh_room_allies()
             history.pop()
             player.limit_history()
             player.get_history()
@@ -342,7 +346,7 @@ class Actions:
             print(f"vous ne pouvez pas vous téléporter à {destination}")
         else:
             player.current_room = carte[destination]
-            player.current_room.refresh_room_entities()
+            player.current_room.refresh_room_allies()
             player.history.append(player.current_room)
             player.limit_history()
             player.get_history()
@@ -484,7 +488,7 @@ class Actions:
 
     def use(game, list_of_words, number_of_parameters):
         player = game.player
-        actions = {"map":(Actions.look_map, game), "boat":(Actions.naviger, game)}
+        actions = {"map":(Actions.look_map, game), "boat":(Actions.naviger, game), "sword":(Actions.attaquer, game), "shield":(Actions.defence, game)}
 
         l = len(list_of_words)
         if l != number_of_parameters + 1:
@@ -504,14 +508,15 @@ class Actions:
     
     def innexistant(item):
         print(f"L'objet {item} ne fais rien !")
+        return True
 
     
     def look_map(game):
         print(carte_monde)
+        return True
 
 
     def naviger(game):
-        #ajouter le marcher flottant et l'allée retour.
         player = game.player
         room = player.current_room
         destinations = [room for room in game.rooms if room.lacustre]
@@ -527,7 +532,7 @@ class Actions:
             destination = input("\nDestination>")
             next_room = [room for room in destinations if room.name == destination].pop()
             player.current_room = next_room
-            player.current_room.refresh_room_entities()
+            player.current_room.refresh_room_allies()
             player.history.append(player.current_room)
             player.limit_history()
             player.get_history()
@@ -535,4 +540,32 @@ class Actions:
         except:
             print(f"\nLa destination {destination} n'existe pas !")
         finally:
-            return
+            return True
+        
+
+    def attaquer(game):
+        player = game.player
+        room = player.current_room
+        ennemis = [entity for entity in room.room_entities if entity.ennemi]
+        power = 50
+        bonus = 0
+        try:
+            followers = len(ennemis[0].followers)
+            bonus += followers*power*0.5 #Bonus de 50% pour chaque allié qui accompagne le héro.
+            print(f"+{followers*100*0.5}% de dégats en plus")
+        finally:
+            for ennemi in ennemis:
+                ennemi.HP -= power + bonus
+                if ennemi.HP < 0:
+                    ennemi.HP = 0
+                print(f"\n{ennemi.name}: {ennemi.HP} HP")
+                if ennemi.HP == 0:
+                    print(f"\n{ennemi.name} a été vaicu !")
+                    ennemi.death()
+
+
+    def defence(game):
+        player = game.player
+        player.HP += 250
+        print("+250HP")
+        del player.inventory["shield"]

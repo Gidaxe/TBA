@@ -66,8 +66,8 @@ class Game:
         
         chateau_de_madar = Room("chateau de madar","dans le chateau de madar, un immense chateau peu éclairé.")
         terrain_d_entrainement= Room("terrain d'entrainement","sur le terrain d'entrainnement des agojié, les soldat d'élites du Roi Madarrrrrr.")
-        salle_du_trone = Room("Salle du trone","dans la salle du trone de madar.")
-        chambre_secrete_du_roi = Room("chambre secrète","dans la chambre secrète de madar, cette pièce contient de nombreux secrets dont la solution pour sortir du jeu.")
+        salle_du_trone = Room("Salle du trone","dans la salle du trone de madar.", solo=True)
+        chambre_secrete_du_roi = Room("chambre secrète","dans la chambre secrète de madar, cette pièce contient de nombreux secrets dont la solution pour sortir du jeu.", solo=True)
 
         village_de_Ganvié = Room("village de ganvié", "à l'ambarcadaire du village de ganvié, autour de vous il y a des bes cannots et des femmes qui vendent du poisson.", True)
         marche_flottant = Room("Marché flottant","sur le marché flottant du village de ganvié, ce marché est assez particulier il a été crée par les dieux et vous pouvez y trouver des objets magiques.", True)
@@ -98,8 +98,8 @@ class Game:
         Grotte.exits = {"N" : None, "E" : None, "S" : village_de_DASSA_baobab, "O" : None, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
         village_de_DASSA_baobab.exits = {"N" : Grotte, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None, "NE": None,"NO": None, "SE": village_de_Ganvié, "SO": chateau_de_madar}
         
-        chateau_de_madar.exits = {"N" : None, "E" : None, "S" : salle_du_trone, "O" : terrain_d_entrainement, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
-        terrain_d_entrainement.exits = {"N" : None, "E" : chateau_de_madar, "S" : None, "O" : None, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
+        chateau_de_madar.exits = {"N" : None, "E" : None, "S" : None, "O" : terrain_d_entrainement, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
+        terrain_d_entrainement.exits = {"N" : None, "E" : chateau_de_madar, "S" : salle_du_trone, "O" : None, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
         salle_du_trone.exits = {"N" : chateau_de_madar, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
         chambre_secrete_du_roi.exits = {"N" : None, "E" : None, "S" : None, "O" : chateau_de_madar, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
 
@@ -109,7 +109,7 @@ class Game:
 
         foret_sacrée.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : arbre_voyageur, "D" : None, "D" : None, "NE": None ,"NO": None, "SE": None, "SO": None}
         arbre_voyageur.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : foret_sacrée,"NE": None,"NO": None, "SE": None, "SO": None}
-        #chateau_de_madar.exits = {"N" : None, "E" : chambre_secrete_du_roi, "S" : salle_du_trone, "O" : terrain_d_entrainement, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
+        #chateau_de_madar.exits = {"N" : None, "E" : chambre_secrete_du_roi, "S" : None, "O" : terrain_d_entrainement, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
         
 
         # Setup room entities
@@ -121,7 +121,16 @@ class Game:
         Madar = Character("Madar", 22, "version virtuelle du concepteur de ce monde", salle_du_trone, {"c'est toi madar?": "oui", "je vais te vaincre pour retrouver mon monde":"essaie pour voir enfant !"}, False)
         le_sage_du_village = Character("le_sage_du_village",13,"du haut de ses 120 ans il connait tout les secrets de ce monde", Grotte, {"salut":"Bienvenu mon enfant", "comment puis-je sortir de ce monde ?": "Pour sortir de ce monde tu va devoir vaincre madar qui est celui qui l'a crée, et le dirige d'une main de fer !"}, False)
         le_sorcier= Character("le_sorcier",23, "sorcier chargé de la formation des gueriers dans le temple",foret_sacrée, {"salut":"salut les jeunes !","nous voulons suivre votre entrainement":"avec plaisir ! suivez moi" }, False)        
-         
+        sbire_de_madar1 = Character("Guerrier_de_Madar", 38, "Guerrier masqué venu vous éliminé sous les ordres de son roi Mansa Madar !", village_de_Ganvié, {"salut":"MEUURRRRRRTTT !!!!!"}, False, False, True)
+        sbire_de_madar2 = Character("Assassin_de_Madar", 40, "Assassin masqué venu vous éliminé sous les ordres de son roi Mansa Madar !", village_de_Ganvié, {"salut":"MEUURRRRRRTTT !!!!!"}, False, False, True)
+        agojié1 = Character("Agojié1", 51, "Guerrière féroce férocement loyale à Madar !", terrain_d_entrainement, {"salut":"Pour sa majestéééééé !!!!!"}, False, False, True)
+        agojié2 = Character("Agojié2", 54, "Guerrière féroce férocement loyale à Madar !", terrain_d_entrainement, {"salut":"Pour sa majestéééééé !!!!!"}, False, False, True)
+        agojié3 = Character("Agojié3", 56, "Guerrière féroce férocement loyale à Madar !", terrain_d_entrainement, {"salut":"Pour sa majestéééééé !!!!!"}, False, False, True)
+        agojié4 = Character("Agojié4", 58, "Guerrière féroce férocement loyale à Madar !", terrain_d_entrainement, {"salut":"Pour sa majestéééééé !!!!!"}, False, False, True)
+        agojié5 = Character("Agojié5", 60, "Guerrière féroce férocement loyale à Madar !", terrain_d_entrainement, {"salut":"Pour sa majestéééééé !!!!!"}, False, False, True)
+        agojié6 = Character("Agojié6", 63, "Guerrière féroce férocement loyale à Madar !", terrain_d_entrainement, {"salut":"Pour sa majestéééééé !!!!!"}, False, False, True)
+
+
         Room.entities[village_de_DASSA_baobab.name].append(Atchede)
         Room.entities[village_de_DASSA_baobab.name].append(Kacou)
         Room.entities[saule_pleureur.name].append(mami_watta)
@@ -130,17 +139,25 @@ class Game:
         Room.entities[salle_du_trone.name].append(Madar)
         Room.entities[Grotte.name].append(le_sage_du_village)
         Room.entities[foret_sacrée.name].append(le_sorcier)
+        Room.entities[village_de_Ganvié.name].append(sbire_de_madar1)
+        Room.entities[village_de_Ganvié.name].append(sbire_de_madar2)
+        Room.entities[terrain_d_entrainement.name].append(agojié1)
+        Room.entities[terrain_d_entrainement.name].append(agojié2)
+        Room.entities[terrain_d_entrainement.name].append(agojié3)
+        Room.entities[terrain_d_entrainement.name].append(agojié4)
+        Room.entities[terrain_d_entrainement.name].append(agojié5)
+        Room.entities[terrain_d_entrainement.name].append(agojié6)
 
 
         # Setup room inventories
-        sword = Item("sword", 0, "une épée au fil tranchant comme un rasoir", 4)
-        shield = Item("shield", 1, "bouclier pouvant parrer n'importe quelle attaque", 6)
-        map = Item("map", 2, "carte magique permettant de vous repérer dans le monde et meme sous certaines conditions de vous téléporter !!!", 2)
-        boat = Item("boat", 4, "bateau pour traverser n'importe quelle étendu d'eau", 3)
+        sword = Item("sword", 0, "Une épée au fil tranchant comme un rasoir:\n\t\t_-50HP de dégats +50% par alliés vous accompagnant", 4)
+        shield = Item("shield", 1, "Bouclier pouvant parrer n'importe quelle attaque:\n\t\t_+250HP", 6)
+        map = Item("map", 2, "Carte magique permettant de vous repérer dans le monde et meme sous certaines conditions de vous téléporter !!!", 2)
+        boat = Item("boat", 4, "Bateau pour traverser n'importe quelle étendu d'eau", 15)
         oeil_magique = Item("oeil", 11, "Oeil magique ayant une fois appartenu a l'épervier de ganvié, il peut tout voir, nul mystere ne lui échappe !", 1)
-        menteau_d_invisibilité = Item("menteau_d_invisibilité", 13, "menteau mythique fait de peau de lion", 4)
-        gants = Item("gants", 7, "ce gants augmente la puissance de son utilisateur", 3)
-        potion_magique = Item("potion_magique", 8, "potions permettant de recuperer sa force apres un combat", 2)
+        menteau_d_invisibilité = Item("menteau_d_invisibilité", 13, "Menteau mythique fait par le grand marabou du nord lui-même !", 4)
+        gants = Item("gants", 7, "Ce gants augmente la puissance de son utilisateur", 3)
+        potion_magique = Item("potion_magique", 8, "Potions permettant de recuperer sa force apres un combat", 2)
 
         village_de_DASSA_baobab.inventory["sword"] = sword
         foret_sacrée.inventory["shield"] = shield 
@@ -164,6 +181,7 @@ class Game:
         while not self.finished:
             # Get the command from the player
             self.process_command(input("> "))
+            self.finished = Room.refresh_room_enemies(self.player)
         return None
 
     # Process the command entered by the player

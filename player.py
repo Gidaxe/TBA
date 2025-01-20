@@ -1,4 +1,10 @@
-#from game import DEBUG
+Game_over = '''
+   _________    __  _________   ____ _    ____________ 
+  / ____/   |  /  |/  / ____/  / __ \ |  / / ____/ __ \ 
+ / / __/ /| | / /|_/ / __/    / / / / | / / __/ / /_/ /
+/ /_/ / ___ |/ /  / / /___   / /_/ /| |/ / /___/ _, _/ 
+\____/_/  |_/_/  /_/_____/   \____/ |___/_____/_/ |_|  
+                                                       '''
 
 # Define the Player class.
 class Player():
@@ -40,12 +46,13 @@ class Player():
     def __init__(self, name):
         self.id = 1
         self.name = name
+        self.HP = 100
         self.max_weight = 25
         self.current_room = None
         self.history = []
         self.inventory = {}
         self.carte = {}
-        self.following = False
+        self.invisible = False
 
 
     # Define the get_history method.
@@ -97,9 +104,14 @@ class Player():
         
         # Set the current room to the next room.
         self.current_room = next_room
-        self.current_room.refresh_room_entities()
+        self.current_room.refresh_room_allies()
         self.history.append(self.current_room)
         self.limit_history()
         return True
 
+
+    def death(self, ennemi):
+        print(f"Vous avez été tué par: {ennemi.name}")
+        print(Game_over)
+        return True
     

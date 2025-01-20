@@ -51,22 +51,41 @@ class Room:
 
     # Define the method class to update the entities in the room
     @classmethod
-    def refresh_room_entities(cls):
-        #faire en sorte que les entités qui follow le player se déplacent
+    def refresh_room_allies(cls):
         #faire en sorte qu'a chaque déplacement du joueur les npc qui ne le follow ont une chance de se déplacer de façon random
         followers = chara.Character.followers
         for ent in followers:
             entity = followers[ent]
             entity.follow_player(entity.leader)
-            print(f"{entity.name} vous suis vers {entity.leader.current_room.name}.")
+
+
+    @classmethod
+    def refresh_room_enemies(cls, player):
+        room = player.current_room
+        ennemis = [entity for entity in room.room_entities if entity.ennemi]
+        power = 25
+        if not player.invisible:
+            for ennemi in ennemis:
+                player.HP -= power
+                if player.HP < 0:
+                    player.HP = 0
+                print(f"\nPlayer: {player.name} vient de perdre {power}HP")
+                print(f"Il vous reste: {player.HP}HP")
+                if player.HP == 0:
+                    print(f"\n{player.name} a été vaicu !")
+                    player.death(ennemi)
+                    return True
+        return False
+
 
     # Define the constructor. 
-    def __init__(self, name, description, lacustre = False):
+    def __init__(self, name, description, lacustre = False, solo = False):
         self.name = name
         self.description = description
         self.exits = {}
         self.inventory = {}
         self.lacustre = lacustre
+        self.solo = solo
         Room.entities[self.name] = []
         self.room_entities = Room.entities[self.name]
 
@@ -93,6 +112,7 @@ class Room:
 
     # Return a long description of this room including exits.
     def get_long_description(self):
+        self.get_entities(True)
         return f"\nVous êtes {self.description}\n\n{self.get_exit_string()}\n"
     
     #Define the get_inventroy method
