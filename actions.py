@@ -98,7 +98,6 @@ class Actions:
         direction = list_of_words[1]
         # Move the player in the direction specified by the parameter.
         player.move(direction)
-        player.get_history()
         print(player.current_room.get_long_description())
         return True
 
@@ -233,7 +232,6 @@ class Actions:
             player.current_room.refresh_room_allies()
             history.pop()
             player.limit_history()
-            player.get_history()
         except IndexError:
             pass
         finally:
@@ -306,10 +304,21 @@ class Actions:
             command_word = list_of_words[0]
             print(MSG0.format(command_word=command_word))
             return False
-        
+        print(f"Vous avez: {player.HP}HP")
         player.get_inventory()
         return True
     
+    def history(game, list_of_words, number_of_parameters):
+        player = game.player
+
+        l = len(list_of_words)
+        if l != number_of_parameters + 1:
+            command_word = list_of_words[0]
+            print(MSG0.format(command_word=command_word))
+            return False
+        
+        player.get_history()
+
     def items(game, list_of_words, number_of_parameters):
 
         l = len(list_of_words)
@@ -346,11 +355,10 @@ class Actions:
             print(f"vous ne pouvez pas vous téléporter à {destination}")
         else:
             player.current_room = carte[destination]
+            print("téléportation réussie !! \n")
             player.current_room.refresh_room_allies()
             player.history.append(player.current_room)
             player.limit_history()
-            player.get_history()
-            print("téléportation réussie !! \n")
             print(player.current_room.get_long_description())
         
         return True
@@ -388,7 +396,6 @@ class Actions:
         if npc.nomade:
             player.move(direction)
             npc.follow_player(player)
-            player.get_history()
             print(player.current_room.get_long_description())
             return True
         else:
@@ -427,8 +434,11 @@ class Actions:
                 return True
 
             try:
-                msg = msgs[int(choix)]                
-                print(entity.get_msg(msg))
+                msg = msgs[int(choix)]
+                msg = entity.get_response(msg)     
+                if not msg: 
+                    return True          
+                print(msg)
             except:
                 print(f"Veillez saisir un choix valide: {[i for i in range(len(msgs))]}")
 
@@ -462,12 +472,15 @@ class Actions:
                 print(f"{merchant.name}: Ravi de faire affaire avec toi !!!\nAu revoir jeune aventurier !")
                 return True
             elif msg in stock:
-                player.inventory[msg] = merchant.inventory[msg]
-                del merchant.inventory[msg]
-                print(f"{merchant.name}: Très bon choix !")
-                print(f"\nVous venez d'acquérir {msg} !")
-                Actions.acheter(player, merchant)
-                return True
+                if not player.limit_inventory(merchant.inventory[msg]):
+                    player.inventory[msg] = merchant.inventory[msg]
+                    del merchant.inventory[msg]
+                    print(f"{merchant.name}: Très bon choix !")
+                    print(f"\nVous venez d'acquérir {msg} !")
+                    Actions.acheter(player, merchant)
+                    return True
+                else:
+                    print("votre inventaire est trop plein !!!")
             else:
                 print(f"{merchant.name}: Je ne possède pas de {msg} !")
 
@@ -496,7 +509,7 @@ class Actions:
 
     def use(game, list_of_words, number_of_parameters):
         player = game.player
-        actions = {"map":(Actions.look_map, game), "boat":(Actions.naviger, game), "sword":(Actions.attaquer, game), "shield":(Actions.defence, game)}
+        actions = {"map":(Actions.look_map, game), "boat":(Actions.naviger, game), "sword":(Actions.attaquer, game), "shield":(Actions.defence, game), "potion_magique":(Actions.regeneration, game), "menteau_d_invisibilité":(Actions.defence, game), "oeil":(Actions.vision_magique, game)}
 
         l = len(list_of_words)
         if l != number_of_parameters + 1:
@@ -543,7 +556,6 @@ class Actions:
             player.current_room.refresh_room_allies()
             player.history.append(player.current_room)
             player.limit_history()
-            player.get_history()
             print(player.current_room.get_long_description())
         except:
             print(f"\nLa destination {destination} n'existe pas !")
@@ -555,7 +567,7 @@ class Actions:
         player = game.player
         room = player.current_room
         ennemis = [entity for entity in room.room_entities if entity.ennemi]
-        power = 50
+        power = player.power
         bonus = 0
         try:
             followers = len(ennemis[0].followers)
@@ -571,7 +583,6 @@ class Actions:
                     ennemi.HP = 0
                 print(f"\n{ennemi.name}: {ennemi.HP} HP")
                 if ennemi.HP == 0:
-                    print(f"\n{ennemi.name} a été vaicu !")
                     ennemi.death()
 
 
@@ -580,3 +591,27 @@ class Actions:
         player.HP += 250
         print("+250HP")
         del player.inventory["shield"]
+
+    
+    def regeneration(game):
+        player = game.player
+        player.HP += 100
+        print("+100HP")
+
+
+    def invisibilite(game):
+        player = game.player
+        player.invisible = not player.invisible
+        if player.invisible:
+            print("Vous êtes maintenant invisible aux yeux de tous vous énnemis (à part Madar).")
+        else:
+            print("Vous n'êtes plus invisible aux yeux de vos énnemis.")
+
+    
+    def vision_magique(game):
+        player = game.player
+        room = player.current_room
+        Madar = [ent for ent in room.get_entities() if ent.id == 13].pop()
+        Madar.invincible = False
+        print("Vous pouvez désormais voir le point faible du tout puissant Mansa Madar.\nSon immortalité ne sert plus à rien !!!")
+        

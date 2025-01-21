@@ -4,17 +4,23 @@ on interdit au perso principal d'entrer dans la salle du throne avec ses freres 
 annuler back lorsqu'on est dans la salle du throne XXX
 
 
-game over XX
-fonction attaque et defense et hp XX
-ajouter des ennemis sur le terrain d'entrainement de facon a ce que le player soit eliminé s'il y va avant d'etre pret. XX
+game over XXX
+fonction attaque et defense et hp XXX
+ajouter des ennemis sur le terrain d'entrainement de facon a ce que le player soit eliminé s'il y va avant d'etre pret. XXX
 
 
-petite voix qui lui dit quoi faire et finir d'implémenter le scénario
+petite voix qui lui dit quoi faire et finir d'implémenter le scénario XXX
+Madar a battu tous les obas du Yorubaland et Anansi XXX
 
-
-Madar a battu tous les obas du Yorubaland et Anansi
 fonctionnalités d'auto-comletion/choix de dialogue avec les npc XXX
+limiter l'inventaire quand on fait des achatsXXX
+Arreter d'afficher l'historique tt le temps et creer une commande historiqueXXX
+afficher les HP avec check XXX
+arranger les commandes dans l'ordre ou elle vont etre utilisés XXX
+
 fonctionnalité corilles/argent
-commande commercer et metre les sous fonctions dans chr
-limiter l'inventaire quand on fait des achats
-afficher les HP avec check
+coder les capacités de tous les objets
+check affiche la puissance
+interface graphique
+faire en sorte que le bonus apres l'entrainement s'applique aussi au player
+faire heriter les classes player et character d'une meme classe entity.

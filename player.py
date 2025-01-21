@@ -47,6 +47,7 @@ class Player():
         self.id = 1
         self.name = name
         self.HP = 100
+        self.power = 50
         self.max_weight = 25
         self.current_room = None
         self.history = []

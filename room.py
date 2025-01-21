@@ -63,19 +63,25 @@ class Room:
     def refresh_room_enemies(cls, player, game):
         room = player.current_room
         ennemis = [entity for entity in room.room_entities if entity.ennemi]
-        power = 25
-        if not player.invisible:
-            for ennemi in ennemis:
-                player.HP -= power
-                if player.HP < 0:
-                    player.HP = 0
-                print(f"\nPlayer: {player.name} vient de perdre {power}HP")
-                print(f"Il vous reste: {player.HP}HP")
-                if player.HP == 0:
-                    print(f"\n{player.name} a été vaicu !")
-                    player.death(ennemi)
-                    game.finished = True
-                    return True
+        if game.antagoniste.dead:
+            game.win = True
+            game.finished = True
+        if not ennemis:
+            return True 
+        if player.invisible and not room.solo:
+            return True
+        power = ennemis[0].power
+        for ennemi in ennemis:
+            player.HP -= power
+            if player.HP < 0:
+                player.HP = 0
+            print(f"\nPlayer: {player.name} vient de perdre {power}HP")
+            print(f"Il vous reste: {player.HP}HP")
+            if player.HP == 0:
+                print(f"\n{player.name} a été vaicu !")
+                player.death(ennemi)
+                game.finished = True
+                return True
 
 
     # Define the constructor. 
@@ -151,4 +157,5 @@ class Room:
             for entity in self.room_entities:
                 if entity.id != 1: #identifiant du joueur
                     print(f"\n\t-{entity}")
+        return [entity for entity in self.room_entities]
          

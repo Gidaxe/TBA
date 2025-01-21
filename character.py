@@ -42,6 +42,7 @@ class Character():
         self.id = identifier
         self.name = name
         self.HP = 100
+        self.power = 25
         self.description = description
         self.current_room = starting_room
         self.inventory = {}
@@ -49,7 +50,8 @@ class Character():
         self.nomade = nomade
         self.echange = echange
         self.ennemi = ennemi
-        
+        self.invincible = False
+        self.dead = False
         self.leader = None
 
     #String representation of the PNG
@@ -66,7 +68,14 @@ class Character():
         else:
             print(f"\n{self.name} n'a rien a vous offrir !")
     
-    def get_msg(self, prompt):
+    def get_response(self, prompt):
+        if prompt == "Entraine nous !":
+            room = self.current_room
+            heros = [entity for entity in room.get_entities() if entity.id != self.id and not entity.ennemi]
+            for hero in heros:
+                hero.power += 50
+            print(f"\nGrace à l'entrainement fourni par le mage légendaire de la forêt sacrée vous avez reçu +100% de puissance d'attaque !!!")
+            return False
         return self.name + ": " + self.msgs.get(prompt, "huuummm")
 
             
@@ -116,9 +125,13 @@ class Character():
     
 
     def death(self):
+        if self.invincible:
+            return True
+        print(f"\n{self.name} a été vaicu !")
         room = self.current_room
         character_index = room.get_entity(name=self.name,room_index=True)
         room.room_entities.pop(character_index)
+        self.dead = True
         return True
 
     
