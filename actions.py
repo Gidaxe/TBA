@@ -407,12 +407,9 @@ class Actions:
         
         npc = list_of_words[1]
         entity = player.current_room.get_entity(npc)
-        if entity == None:
-            print(f"Il n'y a pas de {npc} ici !")
-        msgs = [msg for msg in entity.msgs]
-
         if not entity:
             return True
+        msgs = [msg for msg in entity.msgs]
 
         while True:
             if entity.echange:
