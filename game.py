@@ -118,7 +118,7 @@ class Game:
         mami_watta = Character("mami_watta", 7, "esprit des eaux", saule_pleureur, {"salut":"qui es tu humain?", "Asnaem":"et que veux tu ?", "retourner dans mon monde":"pour ce faire cela ne sera pas simple, tu vas devoir etre assez fort pour vaincre madar et ses soldat mais pas que il te faudras aussi des objets magique que tu pourras trouver dans la foret sacrée...en attendant j'ai un cadeau pour toi","quelle est ce cadeau ?": "d'abord tu dois resoudre une enigme", "ok":"***********", "*******":"felicitation tu obtient l'oeil magique qui te permet de voir toute chose meme celles qui sont invisible pour le commun des mortelles"}, False, True)
         pecheur = Character("pecheur", 21, "un simple pecheur",village_de_Ganvié, {"salut": "salut", "je cherche le marché flottant":"pour aller au marcher flottant vous devez embarquer sur un bateau et aller vers le ****","merci !": " de rien"}, False, True)
         marchand = Character("marchand", 19, " vendeur d'objets magique",marche_flottant, {"salut": "salut jeune homme", "je veux un objet magique puissant": "j'ai plusieurs objets dont une potion magique, un menteau d'invisibilité et des gants", "je prend la potion":"d'accord", "je prend les gants" : "d'accord", "je prend le bouclier": "ok", "je prend le menteau": "ok"}, False, True)
-        Madar = Character("Madar", 22, "version virtuelle du concepteur de ce monde", salle_du_trone, {"c'est toi madar?": "oui", "je vais te vaincre pour retrouver mon monde":"essaie pour voir enfant !"}, False)
+        Madar = Character("Madar", 22, "version virtuelle du concepteur de ce monde", salle_du_trone, {"c'est toi madar?": "oui", "je vais te vaincre pour retrouver mon monde":"essaie pour voir enfant !"}, False, False, True)
         le_sage_du_village = Character("le_sage_du_village",13,"du haut de ses 120 ans il connait tout les secrets de ce monde", Grotte, {"salut":"Bienvenu mon enfant", "comment puis-je sortir de ce monde ?": "Pour sortir de ce monde tu va devoir vaincre madar qui est celui qui l'a crée, et le dirige d'une main de fer !"}, False)
         le_sorcier= Character("le_sorcier",23, "sorcier chargé de la formation des gueriers dans le temple",foret_sacrée, {"salut":"salut les jeunes !","nous voulons suivre votre entrainement":"avec plaisir ! suivez moi" }, False)        
         sbire_de_madar1 = Character("Guerrier_de_Madar", 38, "Guerrier masqué venu vous éliminé sous les ordres de son roi Mansa Madar !", village_de_Ganvié, {"salut":"MEUURRRRRRTTT !!!!!"}, False, False, True)
@@ -181,7 +181,7 @@ class Game:
         while not self.finished:
             # Get the command from the player
             self.process_command(input("> "))
-            self.finished = Room.refresh_room_enemies(self.player)
+            Room.refresh_room_enemies(self.player, self)
         return None
 
     # Process the command entered by the player

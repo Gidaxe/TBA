@@ -13,6 +13,8 @@ petite voix qui lui dit quoi faire et finir d'implémenter le scénario
 
 
 Madar a battu tous les obas du Yorubaland et Anansi
-fonctionnalités d'auto-comletion/choix de dialogue avec les npc
+fonctionnalités d'auto-comletion/choix de dialogue avec les npc XXX
 fonctionnalité corilles/argent
 commande commercer et metre les sous fonctions dans chr
+limiter l'inventaire quand on fait des achats
+afficher les HP avec check

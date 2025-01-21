@@ -407,22 +407,31 @@ class Actions:
         
         npc = list_of_words[1]
         entity = player.current_room.get_entity(npc)
+        msgs = [msg for msg in entity.msgs]
 
         if not entity:
             return True
 
-        if entity.echange:
-            print(f"\nTappez 'commerce' pour commercer avec {entity.name}")
         while True:
-            print(f"Tappez 'bye' pour arreter de parler avec {entity.name}")
-            msg = input(f"\nDiscussion>")
-            if msg == "bye":
+            if entity.echange:
+                print(f"\nTappez 'commerce' pour commercer avec {entity.name}")
+            for i in range(len(msgs)):
+                print(f"\n{i}: {msgs[i]}")
+            print(f"\nTappez 'bye' pour arreter de parler avec {entity.name}")
+            
+            choix = input(f"\nChoix>")
+            if choix == "bye":
                 print(f"{entity.name}: Au revoir jeune aventurier !")
                 return True
-            elif msg == "commerce":
+            elif choix == "commerce":
                 Actions.echanger(player, entity)
                 return True
-            print(entity.get_msg(msg))
+
+            try:
+                msg = msgs[int(choix)]                
+                print(entity.get_msg(msg))
+            except:
+                print(f"Veillez saisir un choix valide: {[i for i in range(len(msgs))]}")
 
     
     def echanger(player, merchant):
@@ -553,6 +562,9 @@ class Actions:
             followers = len(ennemis[0].followers)
             bonus += followers*power*0.5 #Bonus de 50% pour chaque allié qui accompagne le héro.
             print(f"+{followers*100*0.5}% de dégats en plus")
+        except IndexError:
+            print("\nRangez donc votre épée jeune héro ! Il n'y a pas d'énnemis ici !")
+            return True
         finally:
             for ennemi in ennemis:
                 ennemi.HP -= power + bonus

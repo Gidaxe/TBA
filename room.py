@@ -60,7 +60,7 @@ class Room:
 
 
     @classmethod
-    def refresh_room_enemies(cls, player):
+    def refresh_room_enemies(cls, player, game):
         room = player.current_room
         ennemis = [entity for entity in room.room_entities if entity.ennemi]
         power = 25
@@ -74,8 +74,8 @@ class Room:
                 if player.HP == 0:
                     print(f"\n{player.name} a été vaicu !")
                     player.death(ennemi)
+                    game.finished = True
                     return True
-        return False
 
 
     # Define the constructor. 
