@@ -56,14 +56,14 @@ class Player():
         for i in range(len(self.history)):
             print(f"\n\t_{self.history[i].name}")
             if self.history[i].name not in self.carte.keys():
-                self.carte[self.history[i].name] = self.history[i]
+                self.carte[self.history[i].name] = self.history[i] # carte did not turn out to be very useful in the end
 
     #Define the limit_history method
     def limit_history(self):
         if len(self.history) > 10:
            self.history.pop(0)
 
-    #Define the limit_inventory method
+    #Define the limit_inventory method, returns True if adding the new item would overload player capacity.
     def limit_inventory(self, new_item):
         if sum([self.inventory[item].weight for item in self.inventory]) + new_item.weight > self.max_weight:
            return True
@@ -104,7 +104,7 @@ class Player():
         self.limit_history()
         return True
 
-
+    #Define the death method for the player.
     def death(self, ennemi):
         print(f"Vous avez été tué par: {ennemi.name}")
         print(Game_over)

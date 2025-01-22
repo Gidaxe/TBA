@@ -1,5 +1,6 @@
 import random as rd
-#from game import DEBUG
+
+
 # Define the Character class.
 class Character():
     """
@@ -54,11 +55,11 @@ class Character():
         self.dead = False
         self.leader = None
 
-    #String representation of the PNG
+    # String representation of the PNG
     def __str__(self):
         return self.name + " : " + self.description
 
-    #define the get_inventory method
+    # Define the get_inventory method
     def get_inventory(self):
         if len(self.inventory) > 0:
             print(f"\n{self.name}vous propose:")
@@ -68,6 +69,7 @@ class Character():
         else:
             print(f"\n{self.name} n'a rien a vous offrir !")
     
+    # Define the get_response method, it handles the responses of the NPC to the player's prompts
     def get_response(self, prompt):
         if prompt == "Entraine nous !":
             heros = [self.followers[entity] for entity in self.followers]
@@ -82,10 +84,8 @@ class Character():
 
             
 
-    # Define the move method.
+    # Define the move method, allows NPC to move randomly between rooms.
     def move(self):
-        # Get the next room from the exits dictionary of the current room.
-        
         if self.nomade:
             next_room = rd.choice([room for room in self.current_room.exits.values()])        
 
@@ -102,7 +102,7 @@ class Character():
         return True
     
 
-    #Define the follow player function
+    # Define the follow player method
     def follow_player(self, player):
         room = self.current_room
         next_room = player.current_room
@@ -112,7 +112,7 @@ class Character():
             return True
         if self.nomade:
             # Set the current room to the next room, remove npc from previous room entities list and add it to the new room's.
-            # Dans difficultés rencontrés, ne pas oublier de parler de ce fichu bug qui se passe qd on ne prends pas en compte la diff entre égalité mathématique et référence en progammation (room et self.current_room) .
+            # Difficulty encountered: room = next_room does not impact self.current_room.
             try:
                 room.room_entities.pop(character_index)
                 self.current_room = next_room
@@ -125,7 +125,7 @@ class Character():
             print(f"{self.name} ne peut pas se déplacer !")
         return True
     
-
+    # Defines the death method for NPCs
     def death(self):
         if self.invincible:
             return True

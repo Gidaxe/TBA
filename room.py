@@ -1,8 +1,8 @@
 import random as rd
 import character as chara
-#from game import DEBUG
-# Define the Room class.
 
+
+# Define the Room class.
 class Room:
     """
     Represents a room in the game.
@@ -49,16 +49,15 @@ class Room:
 
     entities = {} #dictionnaire: {nom_de_la_room:[entitées de la room]}
 
-    # Define the method class to update the entities in the room
+    # Define the class class to update the allies in the room
     @classmethod
     def refresh_room_allies(cls):
-        #faire en sorte qu'a chaque déplacement du joueur les npc qui ne le follow ont une chance de se déplacer de façon random
         followers = chara.Character.followers
         for ent in followers:
             entity = followers[ent]
             entity.follow_player(entity.leader)
 
-
+    # Define class method to get ennemies attacks
     @classmethod
     def refresh_room_enemies(cls, game):
         player = game.player
@@ -96,7 +95,7 @@ class Room:
         Room.entities[self.name] = []
         self.room_entities = Room.entities[self.name]
 
-    #Define the string representation of a room
+    # Define the string representation of a room
     def __str__(self):
         return self.name
     

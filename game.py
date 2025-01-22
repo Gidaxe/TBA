@@ -176,7 +176,7 @@ class Game:
         marchand.inventory["sac_a_dos"] = sac_a_dos
 
 
-        # Setup player et de l'antagoniste
+        # Setup player and antagonist
         self.player = Player(input("\nEntrez votre nom: "))
         self.player.current_room = labo_du_docteur 
         Madar.invincible = False
@@ -192,6 +192,7 @@ class Game:
         while not self.finished:
             # Get the command from the player
             self.process_command(input("> "))
+            # Get attacks from enemies
             Room.refresh_room_enemies(self)
         if self.win:
             print(WIN)
@@ -217,7 +218,6 @@ class Game:
     def print_welcome(self):
         print(f"\nBienvenue {self.player.name} dans ce jeu d'aventure !")
         print("Entrez 'help' si vous avez besoin d'aide.")
-        #
         print(self.player.current_room.get_long_description())
     
 
