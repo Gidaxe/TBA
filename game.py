@@ -30,6 +30,7 @@ class Game:
         self.rooms = []
         self.commands = {}
         self.player = None
+        self.antagoniste = None
     
     # Setup the game
     def setup(self):
@@ -114,7 +115,7 @@ class Game:
         chateau_de_madar.exits = {"N" : None, "E" : None, "S" : None, "O" : terrain_d_entrainement, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
         terrain_d_entrainement.exits = {"N" : None, "E" : chateau_de_madar, "S" : salle_du_trone, "O" : None, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
         salle_du_trone.exits = {"N" : None, "E" : None, "S" : chambre_secrete_du_roi, "O" : None, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
-        chambre_secrete_du_roi.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
+        chambre_secrete_du_roi.exits = {"N" : salle_du_trone, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
 
         village_de_Ganvié.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None, "D" : None, "NE": None,"NO": village_de_DASSA_baobab, "SE": None, "SO": None}
         marche_flottant.exits = {"N" : None, "E" : None, "S" : None, "O" : None, "U" : None, "D" : None, "D" : None, "NE": None,"NO": None, "SE": None, "SO": None}
@@ -163,14 +164,14 @@ class Game:
 
 
         # Setup room inventories
-        sword = Item("sword", 0, "Une épée au fil tranchant comme un rasoir:\n\t\t_-50HP de dégats +50% par alliés vous accompagnant", 4)
+        sword = Item("sword", 0, "Une épée au fil tranchant comme un rasoir:\n\t\t_-50HP de dégats +50% par alliés qui décident de vous suivre !", 4)
         shield = Item("shield", 1, "Bouclier pouvant parrer n'importe quelle attaque:\n\t\t_+250HP", 6)
         map = Item("map", 2, "Carte magique permettant de vous repérer dans le monde et meme sous certaines conditions de vous téléporter !!!", 2)
         boat = Item("boat", 4, "Bateau pour traverser n'importe quelle étendu d'eau", 15)
         oeil_magique = Item("oeil", 11, "Oeil magique ayant une fois appartenu a l'épervier de ganvié, il peut tout voir, nul mystere ne lui échappe !", 1)
         menteau_d_invisibilité = Item("menteau_d_invisibilité", 13, "Menteau mythique fait par le grand marabou du nord lui-même !", 4)
         gants = Item("gants", 7, "Ce gants augmente la puissance de son utilisateur", 3)
-        potion_magique = Item("potion_magique", 8, "Potions permettant de recuperer sa force apres un combat", 2)
+        potion_magique = Item("potion_magique", 8, "Potions permettant de retrouver sa vigueur:\n\t\t_+100HP par utilisation\n\t\t_x25 Utilisations", 2)
         sac_a_dos = Item("Sac", 17,"Sac à dos en peau de lion, ultra résistant esthétique !:\n\t\t_+50kg de capacité de charge", -50)
 
         village_de_DASSA_baobab.inventory["sword"] = sword
@@ -200,7 +201,7 @@ class Game:
         while not self.finished:
             # Get the command from the player
             self.process_command(input("> "))
-            Room.refresh_room_enemies(self.player, self)
+            Room.refresh_room_enemies(self)
         if self.win:
             print(WIN)
         return None
@@ -232,12 +233,6 @@ class Game:
 def main():
     # Create a game object and play the game
     Game().play()
-    #interace graphique
-    #Nom du jeu en ascii
-    #mouvements aléatoire des npc
-    #fonction attaque et défense
-    #fonctionnalité de commerce
-    #on interdit au perso principal d'entrer dans la salle du throne avec ses freres.
     
 
 if __name__ == "__main__":

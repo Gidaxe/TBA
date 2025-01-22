@@ -18,9 +18,9 @@ Arreter d'afficher l'historique tt le temps et creer une commande historiqueXXX
 afficher les HP avec check XXX
 arranger les commandes dans l'ordre ou elle vont etre utilisés XXX
 
+coder les capacités de tous les objets XXX
+check affiche la puissance XXX
+
 fonctionnalité corilles/argent
-coder les capacités de tous les objets
-check affiche la puissance
-interface graphique
-faire en sorte que le bonus apres l'entrainement s'applique aussi au player
+Ajouter chatGPT
 faire heriter les classes player et character d'une meme classe entity.

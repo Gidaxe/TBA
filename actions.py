@@ -304,7 +304,7 @@ class Actions:
             command_word = list_of_words[0]
             print(MSG0.format(command_word=command_word))
             return False
-        print(f"Vous avez: {player.HP}HP")
+        print(f"Vous avez: {player.HP}HP,  {player.power}ATK")
         player.get_inventory()
         return True
     
@@ -528,7 +528,7 @@ class Actions:
         return True
     
     def innexistant(item):
-        print(f"L'objet {item} ne fais rien !")
+        print(f"L'objet {item} ne fais rien ou n'est pas dans votre inventaire !")
         return True
 
     
@@ -595,8 +595,12 @@ class Actions:
     
     def regeneration(game):
         player = game.player
+        potion = player.inventory["potion_magique"]
+        potion.nb_utilisations += 1
         player.HP += 100
         print("+100HP")
+        if potion.nb_utilisations >= 25:
+            del player.inventory["potion_magique"]
 
 
     def invisibilite(game):

@@ -70,12 +70,14 @@ class Character():
     
     def get_response(self, prompt):
         if prompt == "Entraine nous !":
-            room = self.current_room
-            heros = [entity for entity in room.get_entities() if entity.id != self.id and not entity.ennemi]
-            for hero in heros:
-                hero.power += 50
+            heros = [self.followers[entity] for entity in self.followers]
+            if not heros:
+                return False
+            hero = heros[0].leader
+            hero.power += 50
             print(f"\nGrace à l'entrainement fourni par le mage légendaire de la forêt sacrée vous avez reçu +100% de puissance d'attaque !!!")
-            return False
+            return True
+        
         return self.name + ": " + self.msgs.get(prompt, "huuummm")
 
             

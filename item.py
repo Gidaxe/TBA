@@ -15,6 +15,7 @@ class Item():
         self.id = identifiant
         self.description = description 
         self.weight = weight
+        self.nb_utilisations = 0
         Item.inventaire_jeu[self.id] = self
 
 

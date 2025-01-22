@@ -60,7 +60,8 @@ class Room:
 
 
     @classmethod
-    def refresh_room_enemies(cls, player, game):
+    def refresh_room_enemies(cls, game):
+        player = game.player
         room = player.current_room
         ennemis = [entity for entity in room.room_entities if entity.ennemi]
         if game.antagoniste.dead:
