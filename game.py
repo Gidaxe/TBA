@@ -8,18 +8,9 @@ from command import Command
 from actions import Actions
 from item import Item
 from character import Character
+from ascii import WIN
 
 DEBUG = False
-
-WIN = '''
-
- _       _______   ___   ____________     __
-| |     / /  _/ | / / | / / ____/ __ \   / /
-| | /| / // //  |/ /  |/ / __/ / /_/ /  / / 
-| |/ |/ // // /|  / /|  / /___/ _, _/  /_/  
-|__/|__/___/_/ |_/_/ |_/_____/_/ |_|  (_)   
-                                            
-'''
 
 class Game:
 
@@ -164,7 +155,7 @@ class Game:
 
 
         # Setup room inventories
-        sword = Item("sword", 0, "Une épée au fil tranchant comme un rasoir:\n\t\t_-50HP de dégats +50% par alliés qui décident de vous suivre !", 4)
+        sword = Item("sword", 0, "Une épée au fil tranchant comme un rasoir:\n\t\t_50ATK, +50% par alliés qui décident de vous suivre !", 4)
         shield = Item("shield", 1, "Bouclier pouvant parrer n'importe quelle attaque:\n\t\t_+250HP", 6)
         map = Item("map", 2, "Carte magique permettant de vous repérer dans le monde et meme sous certaines conditions de vous téléporter !!!", 2)
         boat = Item("boat", 4, "Bateau pour traverser n'importe quelle étendu d'eau", 15)

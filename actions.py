@@ -1,39 +1,6 @@
 import item as obj
-carte_monde =  '''
-                                         ~~~~~~~~~~~~~~~~~~~~
-                       (Grotte)          ~ (Saule ~~~~~~~~~~~~~~
-                          |             ~ Pleureur) ~~~~~~~~~~~~~~~~
-                (Village de DASSA)       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                      /       \        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                     /         \      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                    |           \    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                    |           (Village de Ganvié)~~~ ~ (Marché  ~~
-   ROYAUME          |                ~~~~~~~~~~~~~~~~~~ Flottant) ~
-   DU               |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   DAHOMEY          |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                    |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                   /              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~                     
-                  /                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   (Château de Mansa Madar)   ~~~~~  (Forêt  ~~~~~~ LAC ~~~~~~~~~~~~~~~
-                            ~~~~~~~  Sacrée) ~~~~~~ DE ~~~~~~~~~~~~~~~~~
-                          ~~~~~~~~~    |     ~~~~~~ GANVIE ~~~~~~~~~~~
-                      ~~~~~~~~~~~~~    |     ~~~~~~~~~~~~~~~~~~~~~
-                 ~~~~~~~~~~~~~~~~~~  (Arbre  ~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    du    ~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Voyageur)~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-'''
-
-
-Titre = '''
-    __  __                         ____   ____        __                              
-   / / / /__  _________     ____  / __/  / __ \____ _/ /_  ____  ____ ___  ___  __  __
-  / /_/ / _ \/ ___/ __ \   / __ \/ /_   / / / / __ `/ __ \/ __ \/ __ `__ \/ _ \/ / / /
- / __  /  __/ /  / /_/ /  / /_/ / __/  / /_/ / /_/ / / / / /_/ / / / / / /  __/ /_/ / 
-/_/ /_/\___/_/   \____/   \____/_/    /_____/\__,_/_/ /_/\____/_/ /_/ /_/\___/\__, /  
-                                                                             /____/   
-'''
+from ascii import carte_monde
+from ascii import Titre
 
 
 #from game import DEBUG
@@ -347,14 +314,15 @@ class Actions:
         elif "map" not in player.inventory.keys():
             print("Vous ne pouvez pas vous téléporter sans la carte magique")
             return True
-        print('Vous ne pouvez vous téléporter que dans les lieux que vous avez déjà visité !.')
-        print([ i for i in carte.keys()])
+        room_names = [room.name for room in game.rooms]
+        print("Vous ne pouvez vous téléporter n'importe où dans le monde !.")
+        print(room_names)
         #choix de la destination et téléportation
         destination = input("portail magique>")
-        if destination not in carte.keys():
+        if destination not in room_names:
             print(f"vous ne pouvez pas vous téléporter à {destination}")
         else:
-            player.current_room = carte[destination]
+            player.current_room = [dest for dest in game.rooms if dest.name == destination].pop()
             print("téléportation réussie !! \n")
             player.current_room.refresh_room_allies()
             player.history.append(player.current_room)
@@ -509,7 +477,7 @@ class Actions:
 
     def use(game, list_of_words, number_of_parameters):
         player = game.player
-        actions = {"map":(Actions.look_map, game), "boat":(Actions.naviger, game), "sword":(Actions.attaquer, game), "shield":(Actions.defence, game), "potion_magique":(Actions.regeneration, game), "menteau_d_invisibilité":(Actions.defence, game), "oeil":(Actions.vision_magique, game)}
+        actions = {"map":(Actions.look_map, game), "boat":(Actions.naviger, game), "sword":(Actions.attaquer, game), "shield":(Actions.defence, game), "potion_magique":(Actions.regeneration, game), "menteau_d_invisibilité":(Actions.invisibilite, game), "oeil":(Actions.vision_magique, game)}
 
         l = len(list_of_words)
         if l != number_of_parameters + 1:
@@ -615,7 +583,7 @@ class Actions:
     def vision_magique(game):
         player = game.player
         room = player.current_room
-        Madar = [ent for ent in room.get_entities() if ent.id == 13].pop()
+        Madar = game.antagoniste
         Madar.invincible = False
         print("Vous pouvez désormais voir le point faible du tout puissant Mansa Madar.\nSon immortalité ne sert plus à rien !!!")
         
